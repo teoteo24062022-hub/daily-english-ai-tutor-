@@ -26,9 +26,8 @@ with gr.Blocks(title="Daily English AI Tutor", fill_width=True) as demo:
     btn.click(fn=gpu_init, inputs=[], outputs=[txt])
     demo.load(fn=gpu_init, inputs=[], outputs=[txt])
 
-# Mount Gradio at root "/" so Hugging Face Node.js proxy can access /config
-app = gr.mount_gradio_app(fastapi_app, demo, path="/")
+# Mount our FastAPI app into Gradio's internal FastAPI app
+app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=7860)
+    demo.launch(ssr_mode=False, server_name="0.0.0.0", server_port=7860)
