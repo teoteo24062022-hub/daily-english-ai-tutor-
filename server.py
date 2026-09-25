@@ -1,7 +1,7 @@
 import gradio as gr
-from main import app
+from main import app as fastapi_app
 
-# Create a fallback Gradio block
+# Create Gradio block to satisfy Hugging Face Spaces interface
 demo = gr.Blocks(title="Daily English AI Tutor")
 with demo:
     gr.Markdown("## 🎓 Daily English AI Tutor")
@@ -16,7 +16,7 @@ with demo:
 
 # Mount Gradio onto our FastAPI application at /gradio
 # Root `/` and all `/api/*` routes are handled by our FastAPI app in main.py
-app = gr.mount_gradio_app(app, demo, path="/gradio")
+app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
     import uvicorn
