@@ -275,9 +275,15 @@
                 <span>💡 Gợi ý: Bấm vào thẻ hoặc phím cách (Space) để lật xem nghĩa &amp; ví dụ</span>
               </div>
 
-              <div class="flip-btn-wrap">
-                <button class="btn btn-outline" id="btn-flip-card">
-                  <span>🔄 Lật thẻ xem nghĩa</span>
+              <div class="card-save-row">
+                <button class="btn-card-save btn-card-again" id="btn-card-front-again" title="Chưa nhớ từ này - Lưu ôn lại hôm nay">
+                  <span>🔴 Chưa nhớ</span>
+                </button>
+                <button class="btn-card-save btn-card-flip" id="btn-flip-card" title="Lật thẻ xem nghĩa &amp; câu ví dụ">
+                  <span>🔄 Lật xem nghĩa</span>
+                </button>
+                <button class="btn-card-save btn-card-known" id="btn-card-front-known" title="Đã biết từ này - Lưu đã thuộc (+7 ngày)">
+                  <span>🟢 Đã biết</span>
                 </button>
               </div>
             </div>
@@ -299,12 +305,20 @@
                 <span class="mnemonic-text" id="fc-mnemonic">Compute (tính toán) + er -> Máy tính toán.</span>
               </div>
 
-              <div class="flip-btn-wrap">
-                <button class="btn btn-outline" id="btn-flip-back">
-                  <span>🔄 Lật lại mặt trước</span>
+              <div class="card-save-row">
+                <button class="btn-card-save btn-card-again" id="btn-card-back-again" title="Chưa nhớ - Lưu lại để ôn tập hôm nay">
+                  <span>🔴 Chưa nhớ</span>
+                </button>
+                <button class="btn-card-save btn-card-flip" id="btn-flip-back" title="Lật lại mặt trước">
+                  <span>🔄 Lật lại</span>
+                </button>
+                <button class="btn-card-save btn-card-known" id="btn-card-back-known" title="Đã biết / Đã thuộc từ này - Lưu tiến độ (+7 ngày)">
+                  <span>🟢 Đã biết</span>
                 </button>
               </div>
             </div>
+
+            <div id="flashcard-save-toast" class="flashcard-save-toast"></div>
 
           </div>
         </div>

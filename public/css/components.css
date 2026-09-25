@@ -1772,9 +1772,10 @@
 /* 3D Flip Card */
 .flashcard-container {
   width: 100%;
-  height: 360px;
+  height: 385px;
   perspective: 1200px;
   cursor: pointer;
+  position: relative;
 }
 
 .flashcard-inner {
@@ -1925,6 +1926,105 @@
 .flip-btn-wrap {
   display: flex;
   justify-content: center;
+}
+
+.card-save-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+}
+
+.btn-card-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.btn-card-save.btn-card-again {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fca5a5;
+}
+
+.btn-card-save.btn-card-again:hover {
+  background: rgba(239, 68, 68, 0.32);
+  border-color: #ef4444;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.btn-card-save.btn-card-known {
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #6ee7b7;
+}
+
+.btn-card-save.btn-card-known:hover {
+  background: rgba(16, 185, 129, 0.32);
+  border-color: #10b981;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.btn-card-save.btn-card-flip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.btn-card-save.btn-card-flip:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.flashcard-save-toast {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 25;
+}
+
+.flashcard-save-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.flashcard-save-toast.again {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: #ffffff;
+  border: 1px solid #fca5a5;
+}
+
+.flashcard-save-toast.known {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #ffffff;
+  border: 1px solid #6ee7b7;
 }
 
 /* SRS Review Action Bar */

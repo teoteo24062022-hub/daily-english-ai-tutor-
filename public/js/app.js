@@ -86,6 +86,11 @@ const elements = {
   btnSpeakVocab: document.getElementById('btn-speak-vocab'),
   btnFlipCard: document.getElementById('btn-flip-card'),
   btnFlipBack: document.getElementById('btn-flip-back'),
+  btnCardFrontAgain: document.getElementById('btn-card-front-again'),
+  btnCardFrontKnown: document.getElementById('btn-card-front-known'),
+  btnCardBackAgain: document.getElementById('btn-card-back-again'),
+  btnCardBackKnown: document.getElementById('btn-card-back-known'),
+  flashcardSaveToast: document.getElementById('flashcard-save-toast'),
   fcMeaning: document.getElementById('fc-meaning'),
   fcExampleEn: document.getElementById('fc-example-en'),
   fcExampleVi: document.getElementById('fc-example-vi'),
@@ -704,12 +709,36 @@ function flipFlashcard() {
   }
 }
 
+let flashcardToastTimer = null;
+function showFlashcardToast(type, text) {
+  if (!elements.flashcardSaveToast) return;
+  clearTimeout(flashcardToastTimer);
+  elements.flashcardSaveToast.className = `flashcard-save-toast ${type} show`;
+  elements.flashcardSaveToast.innerHTML = text;
+  flashcardToastTimer = setTimeout(() => {
+    if (elements.flashcardSaveToast) {
+      elements.flashcardSaveToast.classList.remove('show');
+    }
+  }, 1800);
+}
+
 async function handleSrsGrade(grade) {
   const list = getFilteredVocabList();
   if (list.length === 0) return;
 
   const currentItem = list[state.currentVocabIndex];
   if (!currentItem) return;
+
+  // Show visual feedback toast immediately
+  if (grade === 0) {
+    showFlashcardToast('again', '🔴 Đã lưu: Chưa nhớ (Sẽ ôn lại hôm nay)');
+  } else if (grade === 3) {
+    showFlashcardToast('known', '🟢 Đã lưu: Đã biết / Đã thuộc (+7 ngày)');
+  } else if (grade === 1) {
+    showFlashcardToast('again', '🟠 Đã lưu: Khó (+1 ngày)');
+  } else if (grade === 2) {
+    showFlashcardToast('known', '🟡 Đã lưu: Tốt (+3 ngày)');
+  }
 
   try {
     const res = await reviewVocabulary(currentItem.id, grade);
@@ -724,7 +753,8 @@ async function handleSrsGrade(grade) {
     console.warn('SRS review sync error:', err);
   }
 
-  // Move to next card smoothly
+  // Reset flip to front and advance to next card smoothly
+  state.isFlashcardFlipped = false;
   state.currentVocabIndex = (state.currentVocabIndex + 1) % list.length;
   renderVocabularyView();
 }
@@ -1012,7 +1042,7 @@ async function handleCheckAnswer() {
     });
 
     state.currentEvaluation = result;
-    displayFeedback(result);
+    displayFeedback(result, userEnglish);
 
     // Save Progress
     const isPass = result.score >= 75;
@@ -1051,7 +1081,7 @@ async function handleCheckAnswer() {
   }
 }
 
-function displayFeedback(result) {
+function displayFeedback(result, userEnglish = '') {
   elements.feedbackContainer.classList.add('visible');
 
   // Score circle
@@ -1125,7 +1155,7 @@ function displayFeedback(result) {
 
   // Trigger AI Pronunciation Diff evaluation
   const targetSent = result.corrected_sentence || (getCurrentSentence() ? getCurrentSentence().english : '');
-  handlePronunciationDiffEvaluation(targetSent, userText);
+  handlePronunciationDiffEvaluation(targetSent, userEnglish || elements.englishInput.value.trim());
 
   // Encouragement
   elements.encouragementText.textContent = result.encouragement || 'Mỗi ngày kiên trì 15 phút sẽ giúp bạn nói tiếng Anh tự nhiên!';
@@ -1218,9 +1248,12 @@ function setupEventListeners() {
     toggleRecording();
   });
 
-  // Flashcard Flip & SRS Ratings
+  // Flashcard Flip & Quick Save Action Buttons
   if (elements.flashcardContainer) {
-    elements.flashcardContainer.addEventListener('click', flipFlashcard);
+    elements.flashcardContainer.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      flipFlashcard();
+    });
   }
   if (elements.btnFlipCard) {
     elements.btnFlipCard.addEventListener('click', (e) => {
@@ -1232,6 +1265,30 @@ function setupEventListeners() {
     elements.btnFlipBack.addEventListener('click', (e) => {
       e.stopPropagation();
       flipFlashcard();
+    });
+  }
+  if (elements.btnCardFrontAgain) {
+    elements.btnCardFrontAgain.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSrsGrade(0);
+    });
+  }
+  if (elements.btnCardFrontKnown) {
+    elements.btnCardFrontKnown.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSrsGrade(3);
+    });
+  }
+  if (elements.btnCardBackAgain) {
+    elements.btnCardBackAgain.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSrsGrade(0);
+    });
+  }
+  if (elements.btnCardBackKnown) {
+    elements.btnCardBackKnown.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleSrsGrade(3);
     });
   }
 
