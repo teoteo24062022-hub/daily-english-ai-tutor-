@@ -35,6 +35,36 @@
         "vietnamese": "Task này mất nhiều thời gian hơn dự kiến vì dữ liệu huấn luyện chứa khá nhiều nhiễu.",
         "context": "Daily standup report - delay reason",
         "hint": "took longer than expected because the training data has a lot of noise..."
+      },
+      {
+        "id": "gen-standup-1",
+        "vietnamese": "Hôm qua mình đã hoàn thành việc tích hợp cổng thanh toán, hôm nay mình sẽ viết unit test và tạo pull request.",
+        "context": "Báo cáo công việc thường nhật trong phiên Daily Standup",
+        "hint": "payment gateway, unit test, pull request"
+      },
+      {
+        "id": "gen-standup-2",
+        "vietnamese": "Mình đang bị kẹt ở chỗ API của bên thứ ba không phản hồi, có ai rảnh sau cuộc họp hỗ trợ mình kiểm tra một chút được không?",
+        "context": "Báo cáo khó khăn (blocker) và tìm kiếm sự trợ giúp",
+        "hint": "blocked, third-party API, look into"
+      },
+      {
+        "id": "gen-standup-3",
+        "vietnamese": "Nhìn vào biểu đồ burndown thì sprint này chúng ta đang hơi chậm tiến độ, có lẽ cần lược bớt một vài task chưa gấp.",
+        "context": "Cập nhật tiến độ tổng thể của sprint với Scrum Master và cả đội",
+        "hint": "burndown chart, behind schedule, deprioritize"
+      },
+      {
+        "id": "gen-standup-4",
+        "vietnamese": "Vấn đề kỹ thuật này khá phức tạp, để tránh mất thời gian của cả team thì chúng ta trao đổi riêng sau buổi họp nhé.",
+        "context": "Đề xuất thảo luận chi tiết sau họp để giữ standup ngắn gọn",
+        "hint": "take this offline, deep dive, sync up"
+      },
+      {
+        "id": "gen-standup-5",
+        "vietnamese": "Task xác thực người dùng đã deploy lên môi trường staging rồi nhé, đội QA có thể bắt đầu test được rồi.",
+        "context": "Bàn giao tính năng đã làm xong cho tester kiểm thử",
+        "hint": "deploy, staging environment, ready for QA"
       }
     ]
   },

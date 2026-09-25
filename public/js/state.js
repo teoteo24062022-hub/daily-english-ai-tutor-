@@ -7,8 +7,16 @@ const LOCAL_STORAGE_KEY_THEME = 'daily_english_theme';
 const LOCAL_STORAGE_KEY_MODEL = 'daily_english_model';
 const LOCAL_STORAGE_KEY_TAB = 'daily_english_tab';
 const LOCAL_STORAGE_KEY_PRACTICE_MODE = 'daily_english_practice_mode';
+const LOCAL_STORAGE_KEY_AUTH_TOKEN = 'daily_english_auth_token';
 
 export const state = {
+  // Authentication & User Profile
+  auth: {
+    user: null,
+    token: localStorage.getItem(LOCAL_STORAGE_KEY_AUTH_TOKEN) || null,
+    isGuest: !localStorage.getItem(LOCAL_STORAGE_KEY_AUTH_TOKEN)
+  },
+
   // Navigation
   currentTab: localStorage.getItem(LOCAL_STORAGE_KEY_TAB) || 'roadmap', // 'roadmap', 'vocabulary', 'practice'
   
@@ -144,6 +152,24 @@ export function getFilteredVocabList() {
     return list.filter(v => (v.level && v.level.toLowerCase().includes('tech')) || (v.level && v.level.toLowerCase().includes('ai')));
   }
   return list;
+}
+
+export function setAuthUser(user, token) {
+  state.auth.user = user;
+  state.auth.token = token;
+  state.auth.isGuest = !token;
+  if (token) {
+    localStorage.setItem(LOCAL_STORAGE_KEY_AUTH_TOKEN, token);
+  } else {
+    localStorage.removeItem(LOCAL_STORAGE_KEY_AUTH_TOKEN);
+  }
+}
+
+export function clearAuthUser() {
+  state.auth.user = null;
+  state.auth.token = null;
+  state.auth.isGuest = true;
+  localStorage.removeItem(LOCAL_STORAGE_KEY_AUTH_TOKEN);
 }
 
 

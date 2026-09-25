@@ -1,12 +1,14 @@
 import { 
   state, getTodayDateString, getCurrentTopic, getCurrentSentence, 
-  setApiKey, setTheme, setModel, setTab, setPracticeMode, getFilteredVocabList 
+  setApiKey, setTheme, setModel, setTab, setPracticeMode, getFilteredVocabList,
+  setAuthUser, clearAuthUser
 } from './state.js';
 import { 
   fetchConfig, saveServerApiKey, fetchTopics, fetchProgress, saveProgress, 
   evaluateTranslation, generateMoreSentences, quickCheckGrammar, createCustomTopic,
   fetchVocabulary, reviewVocabulary, aiGenerateVocab, addCustomWord, fetchRoadmap, completeRoadmapDay,
-  fetchRoleplayScenarios, sendRoleplayChat, fetchRoleplayDebrief, generateVocabStory, evaluatePronunciation, askAiAssistant
+  fetchRoleplayScenarios, sendRoleplayChat, fetchRoleplayDebrief, generateVocabStory, evaluatePronunciation, askAiAssistant,
+  registerAccount, loginAccount, forgotPassword, fetchMe, logoutAccount
 } from './api.js';
 import { initSpeechRecognition, toggleRecording, speakText, setSpeechRate, getSpeechRate, createVoiceRecognizer } from './speech.js';
 
@@ -267,8 +269,393 @@ const elements = {
   assistantDrawerClose: document.getElementById('assistant-drawer-close'),
   assistantMessagesStream: document.getElementById('assistant-messages-stream'),
   assistantInputBox: document.getElementById('assistant-input-box'),
-  btnAssistantSubmit: document.getElementById('btn-assistant-submit')
+  btnAssistantSubmit: document.getElementById('btn-assistant-submit'),
+
+  // ==========================================
+  // AUTHENTICATION & PROFILE MODAL ELEMENTS
+  // ==========================================
+  authBtn: document.getElementById('auth-btn'),
+  authAvatarIcon: document.getElementById('auth-avatar-icon'),
+  authUserName: document.getElementById('auth-user-name'),
+  authModal: document.getElementById('auth-modal'),
+  authModalClose: document.getElementById('auth-modal-close'),
+  authTabNav: document.getElementById('auth-tab-nav'),
+  authNavLogin: document.getElementById('auth-nav-login'),
+  authNavRegister: document.getElementById('auth-nav-register'),
+  authNavForgot: document.getElementById('auth-nav-forgot'),
+  authAlert: document.getElementById('auth-alert'),
+  authPanelLogin: document.getElementById('auth-panel-login'),
+  authPanelRegister: document.getElementById('auth-panel-register'),
+  authPanelForgot: document.getElementById('auth-panel-forgot'),
+  authPanelProfile: document.getElementById('auth-panel-profile'),
+  loginIdentity: document.getElementById('login-identity'),
+  loginPassword: document.getElementById('login-password'),
+  btnSubmitLogin: document.getElementById('btn-submit-login'),
+  linkToRegister: document.getElementById('link-to-register'),
+  linkToForgot: document.getElementById('link-to-forgot'),
+  registerUsername: document.getElementById('register-username'),
+  registerEmail: document.getElementById('register-email'),
+  registerPassword: document.getElementById('register-password'),
+  btnSubmitRegister: document.getElementById('btn-submit-register'),
+  registerPinCard: document.getElementById('register-pin-card'),
+  registerPinCode: document.getElementById('register-pin-code'),
+  btnCopyPin: document.getElementById('btn-copy-pin'),
+  btnPinConfirmDone: document.getElementById('btn-pin-confirm-done'),
+  forgotEmail: document.getElementById('forgot-email'),
+  forgotPin: document.getElementById('forgot-pin'),
+  forgotNewPassword: document.getElementById('forgot-new-password'),
+  btnSubmitForgot: document.getElementById('btn-submit-forgot'),
+  linkForgotToLogin: document.getElementById('link-forgot-to-login'),
+  profileDisplayName: document.getElementById('profile-display-name'),
+  profileDisplayEmail: document.getElementById('profile-display-email'),
+  profileStreakVal: document.getElementById('profile-streak-val'),
+  profileTotalVal: document.getElementById('profile-total-val'),
+  profileVocabVal: document.getElementById('profile-vocab-val'),
+  btnSubmitLogout: document.getElementById('btn-submit-logout')
 };
+
+// ==========================================================================
+// AUTHENTICATION & MULTI-USER PROFILE CONTROLLER
+// ==========================================================================
+
+async function initAuth() {
+  if (state.auth.token) {
+    try {
+      const me = await fetchMe();
+      if (me && me.authenticated && me.user) {
+        setAuthUser(me.user, state.auth.token);
+      } else {
+        clearAuthUser();
+      }
+    } catch (err) {
+      console.warn('Auth token verification failed:', err);
+      clearAuthUser();
+    }
+  }
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  if (!elements.authUserName) return;
+  if (state.auth.user) {
+    if (elements.authAvatarIcon) elements.authAvatarIcon.textContent = '🎓';
+    elements.authUserName.textContent = state.auth.user.username;
+    elements.authBtn.title = `Tài khoản: ${state.auth.user.username} (${state.auth.user.email})`;
+  } else {
+    if (elements.authAvatarIcon) elements.authAvatarIcon.textContent = '👤';
+    elements.authUserName.textContent = 'Đăng nhập';
+    elements.authBtn.title = 'Chế độ Khách - Nhấn để Đăng nhập hoặc Tạo tài khoản';
+  }
+}
+
+function showAuthAlert(msg, type = 'error') {
+  if (!elements.authAlert) return;
+  elements.authAlert.className = `auth-alert ${type}`;
+  elements.authAlert.textContent = msg;
+  elements.authAlert.style.display = 'block';
+}
+
+function hideAuthAlert() {
+  if (!elements.authAlert) return;
+  elements.authAlert.style.display = 'none';
+}
+
+function switchAuthTab(tab) {
+  hideAuthAlert();
+  [elements.authNavLogin, elements.authNavRegister, elements.authNavForgot].forEach(btn => {
+    if (btn) btn.classList.remove('active');
+  });
+  [elements.authPanelLogin, elements.authPanelRegister, elements.authPanelForgot, elements.authPanelProfile].forEach(panel => {
+    if (panel) panel.style.display = 'none';
+  });
+
+  if (tab === 'login') {
+    if (elements.authNavLogin) elements.authNavLogin.classList.add('active');
+    if (elements.authPanelLogin) elements.authPanelLogin.style.display = 'flex';
+  } else if (tab === 'register') {
+    if (elements.authNavRegister) elements.authNavRegister.classList.add('active');
+    if (elements.authPanelRegister) elements.authPanelRegister.style.display = 'flex';
+    if (elements.registerPinCard) elements.registerPinCard.style.display = 'none';
+  } else if (tab === 'forgot') {
+    if (elements.authNavForgot) elements.authNavForgot.classList.add('active');
+    if (elements.authPanelForgot) elements.authPanelForgot.style.display = 'flex';
+  } else if (tab === 'profile') {
+    if (elements.authPanelProfile) elements.authPanelProfile.style.display = 'flex';
+  }
+}
+
+function openAuthModal() {
+  if (state.assistant && state.assistant.isOpen) {
+    toggleAssistantDrawer(false);
+  }
+  if (state.auth.user) {
+    if (elements.authTabNav) elements.authTabNav.style.display = 'none';
+    if (elements.profileDisplayName) elements.profileDisplayName.textContent = state.auth.user.username;
+    if (elements.profileDisplayEmail) elements.profileDisplayEmail.textContent = state.auth.user.email;
+    if (elements.profileStreakVal) elements.profileStreakVal.textContent = `🔥 ${state.streak} Ngày`;
+    if (elements.profileTotalVal) elements.profileTotalVal.textContent = `🎯 ${state.totalCompleted} Câu`;
+    switchAuthTab('profile');
+  } else {
+    if (elements.authTabNav) elements.authTabNav.style.display = 'grid';
+    switchAuthTab('login');
+  }
+  if (elements.authModal) {
+    elements.authModal.classList.add('active');
+    elements.authModal.style.display = 'flex';
+  }
+}
+
+function closeAuthModal() {
+  if (elements.authModal) {
+    elements.authModal.classList.remove('active');
+    elements.authModal.style.display = 'none';
+  }
+  hideAuthAlert();
+}
+
+async function refreshAllUserData() {
+  try {
+    const progress = await fetchProgress();
+    state.streak = progress.streak || 0;
+    state.todayCompleted = progress.today_completed || 0;
+    state.totalCompleted = progress.total_completed || 0;
+    state.mistakes = progress.mistakes || [];
+    updateHeaderStats();
+
+    state.vocabulary = await fetchVocabulary();
+    updateVocabStatsUI();
+    renderVocabularyView();
+
+    state.roadmap = await fetchRoadmap();
+    state.selectedDay = state.roadmap.current_day || 1;
+    renderRoadmapView();
+  } catch (err) {
+    console.warn('Error refreshing user data:', err);
+  }
+}
+
+function setupAuthEvents() {
+  if (elements.authBtn) {
+    elements.authBtn.addEventListener('click', openAuthModal);
+  }
+  if (elements.authModalClose) {
+    elements.authModalClose.addEventListener('click', closeAuthModal);
+  }
+  if (elements.authModal) {
+    elements.authModal.addEventListener('click', (e) => {
+      if (e.target === elements.authModal) closeAuthModal();
+    });
+  }
+
+  // Tabs
+  if (elements.authNavLogin) elements.authNavLogin.addEventListener('click', () => switchAuthTab('login'));
+  if (elements.authNavRegister) elements.authNavRegister.addEventListener('click', () => switchAuthTab('register'));
+  if (elements.authNavForgot) elements.authNavForgot.addEventListener('click', () => switchAuthTab('forgot'));
+
+  // Quick switch links
+  if (elements.linkToRegister) {
+    elements.linkToRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchAuthTab('register');
+    });
+  }
+  if (elements.linkToForgot) {
+    elements.linkToForgot.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchAuthTab('forgot');
+    });
+  }
+  if (elements.linkForgotToLogin) {
+    elements.linkForgotToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchAuthTab('login');
+    });
+  }
+
+  // Submit Login
+  if (elements.btnSubmitLogin) {
+    elements.btnSubmitLogin.addEventListener('click', async () => {
+      const identity = elements.loginIdentity ? elements.loginIdentity.value.trim() : '';
+      const password = elements.loginPassword ? elements.loginPassword.value : '';
+
+      if (!identity || !password) {
+        showAuthAlert('Vui lòng nhập đầy đủ Email/Tài khoản và Mật khẩu.');
+        return;
+      }
+
+      elements.btnSubmitLogin.disabled = true;
+      elements.btnSubmitLogin.innerHTML = '<span>⏳ Đang đăng nhập...</span>';
+      hideAuthAlert();
+
+      try {
+        const res = await loginAccount(identity, password);
+        setAuthUser(res.user, res.token);
+        updateAuthUI();
+        await refreshAllUserData();
+        closeAuthModal();
+      } catch (err) {
+        showAuthAlert(err.message);
+      } finally {
+        elements.btnSubmitLogin.disabled = false;
+        elements.btnSubmitLogin.innerHTML = '<span>🚀 Đăng Nhập Ngay</span>';
+      }
+    });
+  }
+
+  // Submit Register
+  if (elements.btnSubmitRegister) {
+    elements.btnSubmitRegister.addEventListener('click', async () => {
+      const username = elements.registerUsername ? elements.registerUsername.value.trim() : '';
+      const email = elements.registerEmail ? elements.registerEmail.value.trim() : '';
+      const password = elements.registerPassword ? elements.registerPassword.value : '';
+
+      if (!username || !email || !password) {
+        showAuthAlert('Vui lòng điền đầy đủ các thông tin đăng ký.');
+        return;
+      }
+
+      elements.btnSubmitRegister.disabled = true;
+      elements.btnSubmitRegister.innerHTML = '<span>⏳ Đang tạo tài khoản &amp; cấp mã PIN...</span>';
+      hideAuthAlert();
+
+      try {
+        const res = await registerAccount(email, username, password);
+        setAuthUser(res.user, res.token);
+        updateAuthUI();
+        await refreshAllUserData();
+
+        if (elements.registerPinCode) elements.registerPinCode.textContent = res.recovery_pin || '------';
+        if (elements.registerPinCard) elements.registerPinCard.style.display = 'block';
+        showAuthAlert('Đăng ký thành công! Hãy lưu lại Mã PIN khôi phục bên dưới.', 'success');
+      } catch (err) {
+        showAuthAlert(err.message);
+      } finally {
+        elements.btnSubmitRegister.disabled = false;
+        elements.btnSubmitRegister.innerHTML = '<span>✨ Tạo Tài Khoản &amp; Nhận Mã PIN</span>';
+      }
+    });
+  }
+
+  // Copy PIN
+  if (elements.btnCopyPin) {
+    elements.btnCopyPin.addEventListener('click', () => {
+      const pin = elements.registerPinCode ? elements.registerPinCode.textContent.trim() : '';
+      if (pin && pin !== '------') {
+        navigator.clipboard.writeText(pin).then(() => {
+          elements.btnCopyPin.innerHTML = '<span>✓ Đã sao chép!</span>';
+          setTimeout(() => {
+            elements.btnCopyPin.innerHTML = '<span>📋 Sao chép PIN</span>';
+          }, 2500);
+        });
+      }
+    });
+  }
+
+  if (elements.btnPinConfirmDone) {
+    elements.btnPinConfirmDone.addEventListener('click', () => {
+      closeAuthModal();
+    });
+  }
+
+  // Submit Forgot Password
+  if (elements.btnSubmitForgot) {
+    elements.btnSubmitForgot.addEventListener('click', async () => {
+      const email = elements.forgotEmail ? elements.forgotEmail.value.trim() : '';
+      const pin = elements.forgotPin ? elements.forgotPin.value.trim() : '';
+      const newPassword = elements.forgotNewPassword ? elements.forgotNewPassword.value : '';
+
+      if (!email || !pin || !newPassword) {
+        showAuthAlert('Vui lòng nhập Email, Mã PIN 6 số và Mật khẩu mới.');
+        return;
+      }
+
+      elements.btnSubmitForgot.disabled = true;
+      elements.btnSubmitForgot.innerHTML = '<span>⏳ Đang xử lý khôi phục...</span>';
+      hideAuthAlert();
+
+      try {
+        const res = await forgotPassword(email, pin, newPassword);
+        switchAuthTab('login');
+        if (elements.loginIdentity) elements.loginIdentity.value = email;
+        showAuthAlert(res.message || 'Đặt lại mật khẩu thành công! Bạn có thể đăng nhập ngay.', 'success');
+      } catch (err) {
+        showAuthAlert(err.message);
+      } finally {
+        elements.btnSubmitForgot.disabled = false;
+        elements.btnSubmitForgot.innerHTML = '<span>🔒 Đặt Lại Mật Khẩu &amp; Đăng Nhập</span>';
+      }
+    });
+  }
+
+  // Submit Logout
+  if (elements.btnSubmitLogout) {
+    elements.btnSubmitLogout.addEventListener('click', async () => {
+      try {
+        await logoutAccount();
+      } catch (e) {
+        console.warn('Logout error:', e);
+      }
+      clearAuthUser();
+      updateAuthUI();
+      await refreshAllUserData();
+      closeAuthModal();
+    });
+  }
+
+  // Keyboard navigation & Enter key submission for Auth inputs
+  if (elements.loginIdentity) {
+    elements.loginIdentity.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (elements.loginPassword && !elements.loginPassword.value) {
+          elements.loginPassword.focus();
+        } else if (elements.btnSubmitLogin) {
+          elements.btnSubmitLogin.click();
+        }
+      }
+    });
+  }
+  if (elements.loginPassword) {
+    elements.loginPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.btnSubmitLogin) {
+        elements.btnSubmitLogin.click();
+      }
+    });
+  }
+  if (elements.registerUsername) {
+    elements.registerUsername.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.registerEmail) elements.registerEmail.focus();
+    });
+  }
+  if (elements.registerEmail) {
+    elements.registerEmail.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.registerPassword) elements.registerPassword.focus();
+    });
+  }
+  if (elements.registerPassword) {
+    elements.registerPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.btnSubmitRegister) {
+        elements.btnSubmitRegister.click();
+      }
+    });
+  }
+  if (elements.forgotEmail) {
+    elements.forgotEmail.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.forgotPin) elements.forgotPin.focus();
+    });
+  }
+  if (elements.forgotPin) {
+    elements.forgotPin.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.forgotNewPassword) elements.forgotNewPassword.focus();
+    });
+  }
+  if (elements.forgotNewPassword) {
+    elements.forgotNewPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && elements.btnSubmitForgot) {
+        elements.btnSubmitForgot.click();
+      }
+    });
+  }
+}
 
 // ==========================================================================
 // APP INITIALIZATION
@@ -281,8 +668,11 @@ async function initApp() {
   setupStoryGeneratorEvents();
   setupPronunciationShadowingEvents();
   setupFloatingAssistantEvents();
+  setupAuthEvents();
 
   try {
+    // 0. Verify auth token / initialize user session
+    await initAuth();
     // 1. Load config & API Key
     const config = await fetchConfig();
     updateApiStatusUI(config.has_api_key);
@@ -2428,12 +2818,26 @@ async function handleAssistantAsk(customQuestion) {
   }
 
   try {
-    const res = await askAiAssistant(inputVal, context, state.apiKey);
+    const res = await askAiAssistant({
+      question: inputVal,
+      selectedText: state.assistant && state.assistant.activeSelection ? state.assistant.activeSelection : '',
+      context: context,
+      customApiKey: state.apiKey || ''
+    });
     const thinkingEl = document.getElementById(thinkingId);
     if (thinkingEl) thinkingEl.remove();
 
-    if (res && res.answer) {
-      appendAssistantMessage('ai', res.answer);
+    if (res && (res.answer_vi || res.answer)) {
+      let fullMessage = res.answer_vi || res.answer;
+      if (res.examples && Array.isArray(res.examples) && res.examples.length > 0) {
+        fullMessage += '\n\n**Ví dụ thực tế:**\n' + res.examples.map(ex => `• ${ex}`).join('\n');
+      }
+      if (res.tips) {
+        fullMessage += `\n\n💡 **Mẹo ghi nhớ:** ${res.tips}`;
+      }
+      appendAssistantMessage('ai', fullMessage);
+    } else {
+      appendAssistantMessage('ai', 'Không nhận được câu trả lời từ AI. Vui lòng thử lại!');
     }
   } catch (err) {
     const thinkingEl = document.getElementById(thinkingId);
@@ -2449,9 +2853,11 @@ function appendAssistantMessage(role, text, id = null) {
   if (id) wrap.id = id;
 
   const isAi = role === 'ai';
+  const formatted = escapeHtml(text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
   wrap.innerHTML = `
     <div class="msg-avatar">${isAi ? '💡' : '👤'}</div>
-    <div class="msg-text">${escapeHtml(text)}</div>
+    <div class="msg-text">${formatted}</div>
   `;
   elements.assistantMessagesStream.appendChild(wrap);
   elements.assistantMessagesStream.scrollTop = elements.assistantMessagesStream.scrollHeight;

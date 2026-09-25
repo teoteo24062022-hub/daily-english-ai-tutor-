@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-from fastapi import FastAPI, HTTPException
+from typing import Optional, List, Dict, Any
+from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,11 +15,18 @@ from app.models import (
     RoleplayChatRequest, RoleplayDebriefRequest, RoleplayDebriefResponse,
     StoryGenerateRequest, StoryGenerateResponse,
     PronunciationEvalRequest, PronunciationEvalResponse,
-    AssistantAskRequest, AssistantAskResponse
+    AssistantAskRequest, AssistantAskResponse,
+    RegisterRequest, LoginRequest, ForgotPasswordRequest,
+    AuthResponse, UserPublic, UserRecord
 )
 from app.storage import (
     load_topics, load_progress, update_progress, add_sentences_to_topic, save_new_topic,
-    load_vocabulary, update_vocab_review, add_vocab_item, load_roadmap, update_roadmap_progress
+    load_vocabulary, update_vocab_review, add_vocab_item, load_roadmap, update_roadmap_progress,
+    merge_guest_data_into_user
+)
+from app.auth import (
+    register_user, authenticate_user, reset_password_with_pin,
+    get_user_by_token, revoke_token
 )
 from app.gemini import (
     evaluate_translation, generate_more_sentences, quick_check_grammar,
@@ -52,6 +60,72 @@ async def serve_index():
         return {"status": "ok", "message": "Daily English AI Tutor API running. Web UI loading..."}
     return FileResponse(str(index_file))
 
+# ========================================================
+# USER AUTHENTICATION & DEPENDENCIES
+# ========================================================
+
+async def get_current_user(authorization: Optional[str] = Header(None)) -> Optional[UserRecord]:
+    if not authorization:
+        return None
+    parts = authorization.split()
+    if len(parts) == 2 and parts[0].lower() == "bearer":
+        return get_user_by_token(parts[1])
+    return None
+
+async def get_optional_user_id(user: Optional[UserRecord] = Depends(get_current_user)) -> Optional[str]:
+    return user.id if user else None
+
+@app.post("/api/auth/register", response_model=AuthResponse)
+async def post_auth_register(req: RegisterRequest):
+    user, token, pin, err = register_user(req.email, req.username, req.password)
+    if err:
+        raise HTTPException(status_code=400, detail=err)
+    merge_guest_data_into_user(user.id)
+    return AuthResponse(
+        success=True,
+        token=token,
+        user=UserPublic(id=user.id, email=user.email, username=user.username, created_at=user.created_at),
+        recovery_pin=pin,
+        message="Đăng ký thành công! Hãy lưu lại Mã PIN khôi phục này."
+    )
+
+@app.post("/api/auth/login", response_model=AuthResponse)
+async def post_auth_login(req: LoginRequest):
+    user, token, err = authenticate_user(req.email_or_username, req.password)
+    if err:
+        raise HTTPException(status_code=401, detail=err)
+    merge_guest_data_into_user(user.id)
+    return AuthResponse(
+        success=True,
+        token=token,
+        user=UserPublic(id=user.id, email=user.email, username=user.username, created_at=user.created_at),
+        message="Đăng nhập thành công!"
+    )
+
+@app.post("/api/auth/forgot-password")
+async def post_auth_forgot_password(req: ForgotPasswordRequest):
+    ok, msg = reset_password_with_pin(req.email, req.recovery_pin, req.new_password)
+    if not ok:
+        raise HTTPException(status_code=400, detail=msg)
+    return {"success": True, "message": msg}
+
+@app.get("/api/auth/me")
+async def get_auth_me(user: Optional[UserRecord] = Depends(get_current_user)):
+    if not user:
+        return {"authenticated": False, "user": None}
+    return {
+        "authenticated": True,
+        "user": UserPublic(id=user.id, email=user.email, username=user.username, created_at=user.created_at)
+    }
+
+@app.post("/api/auth/logout")
+async def post_auth_logout(authorization: Optional[str] = Header(None)):
+    if authorization:
+        parts = authorization.split()
+        if len(parts) == 2 and parts[0].lower() == "bearer":
+            revoke_token(parts[1])
+    return {"success": True, "message": "Đã đăng xuất"}
+
 @app.get("/api/config", response_model=ConfigResponse)
 async def get_config():
     key = get_gemini_api_key()
@@ -81,17 +155,18 @@ async def get_topics():
     return topics
 
 @app.get("/api/progress")
-async def get_progress():
-    return load_progress()
+async def get_progress(user_id: Optional[str] = Depends(get_optional_user_id)):
+    return load_progress(user_id=user_id)
 
 @app.post("/api/progress")
-async def post_progress(req: ProgressUpdateRequest):
+async def post_progress(req: ProgressUpdateRequest, user_id: Optional[str] = Depends(get_optional_user_id)):
     mistake_dict = req.mistake_item.model_dump() if req.mistake_item else None
     updated = update_progress(
         date_str=req.date,
         completed_inc=req.completed_increment,
         score=req.score,
-        mistake_item=mistake_dict
+        mistake_item=mistake_dict,
+        user_id=user_id
     )
     return {"success": True, "progress": updated}
 
@@ -160,14 +235,14 @@ async def post_create_topic(req: CreateTopicRequest):
 # ========================================================
 
 @app.get("/api/vocabulary")
-async def get_vocabulary():
+async def get_vocabulary(user_id: Optional[str] = Depends(get_optional_user_id)):
     """Lấy danh sách toàn bộ từ vựng và trạng thái SRS."""
-    return load_vocabulary()
+    return load_vocabulary(user_id=user_id)
 
 @app.post("/api/vocabulary/review")
-async def post_vocabulary_review(req: VocabularyReviewRequest):
+async def post_vocabulary_review(req: VocabularyReviewRequest, user_id: Optional[str] = Depends(get_optional_user_id)):
     """Cập nhật kết quả ôn tập flashcard (Again, Hard, Good, Easy) theo thuật toán SRS."""
-    updated = update_vocab_review(req.vocab_id, req.grade)
+    updated = update_vocab_review(req.vocab_id, req.grade, user_id=user_id)
     if not updated:
         raise HTTPException(status_code=404, detail="Không tìm thấy từ vựng")
     return {"success": True, "item": updated}
@@ -188,11 +263,11 @@ async def post_vocabulary_ai_generate(req: AiWordGenerateRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/vocabulary/add")
-async def post_vocabulary_add(req: AddCustomWordRequest):
+async def post_vocabulary_add(req: AddCustomWordRequest, user_id: Optional[str] = Depends(get_optional_user_id)):
     """Lưu từ vựng mới vào kho cá nhân."""
     if not req.word.strip() or not req.meaning.strip():
         raise HTTPException(status_code=400, detail="Từ vựng và nghĩa không được để trống")
-    item = add_vocab_item(req.model_dump())
+    item = add_vocab_item(req.model_dump(), user_id=user_id)
     return {"success": True, "item": item}
 
 # ========================================================
@@ -200,14 +275,14 @@ async def post_vocabulary_add(req: AddCustomWordRequest):
 # ========================================================
 
 @app.get("/api/roadmap")
-async def get_roadmap():
+async def get_roadmap(user_id: Optional[str] = Depends(get_optional_user_id)):
     """Lấy lộ trình 3 tháng (90 ngày) và tiến độ học tập."""
-    return load_roadmap()
+    return load_roadmap(user_id=user_id)
 
 @app.post("/api/roadmap/complete-day")
-async def post_roadmap_complete_day(req: CompleteDayRequest):
+async def post_roadmap_complete_day(req: CompleteDayRequest, user_id: Optional[str] = Depends(get_optional_user_id)):
     """Đánh dấu hoàn thành bài học của một ngày trong lộ trình."""
-    updated = update_roadmap_progress(req.day, completed=True)
+    updated = update_roadmap_progress(req.day, completed=True, user_id=user_id)
     return {"success": True, "roadmap": updated}
 
 # ========================================================

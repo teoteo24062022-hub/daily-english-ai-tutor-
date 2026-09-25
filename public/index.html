@@ -43,6 +43,12 @@
         <button id="theme-toggle" class="btn-icon" title="Chuyển chế độ Sáng / Tối">
           <span>🌓</span>
         </button>
+
+        <!-- User Authentication & Profile Badge -->
+        <button id="auth-btn" class="stat-pill stat-user-auth" title="Tài khoản học viên & Đồng bộ dữ liệu">
+          <span id="auth-avatar-icon">👤</span>
+          <span id="auth-user-name">Đăng nhập</span>
+        </button>
       </div>
     </div>
   </header>
@@ -1100,6 +1106,161 @@
     <div class="assistant-input-wrap">
       <input type="text" id="assistant-input-box" class="form-input" placeholder="Hỏi bất kỳ thắc mắc tiếng Anh nào...">
       <button id="btn-assistant-submit" class="btn btn-primary">Gửi</button>
+    </div>
+  </div>
+
+  <!-- Authentication & User Profile Modal -->
+  <div id="auth-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card auth-modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🔐 Tài Khoản Học Viên &amp; Đồng Bộ Đám Mây</span>
+        </div>
+        <button id="auth-modal-close" class="btn-icon" title="Đóng">✕</button>
+      </div>
+
+      <div class="modal-body auth-modal-body">
+        <!-- Auth Tab Switcher (Visible in Guest mode) -->
+        <div class="auth-tab-nav" id="auth-tab-nav">
+          <button class="auth-tab-btn active" data-auth-tab="login" id="auth-nav-login">
+            <span>🚀 Đăng Nhập</span>
+          </button>
+          <button class="auth-tab-btn" data-auth-tab="register" id="auth-nav-register">
+            <span>✨ Tạo Tài Khoản</span>
+          </button>
+          <button class="auth-tab-btn" data-auth-tab="forgot" id="auth-nav-forgot">
+            <span>🔑 Quên Mật Khẩu</span>
+          </button>
+        </div>
+
+        <!-- Global Message / Error Alert -->
+        <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+        <!-- Panel 1: Login Form -->
+        <div class="auth-panel" id="auth-panel-login">
+          <div class="form-group">
+            <label for="login-identity">Email hoặc Tên đăng nhập</label>
+            <input type="text" id="login-identity" class="form-input" placeholder="Ví dụ: learner@gmail.com hoặc AlexDev">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mật khẩu</label>
+            <input type="password" id="login-password" class="form-input" placeholder="Nhập mật khẩu của bạn">
+          </div>
+          <div class="auth-actions">
+            <button id="btn-submit-login" class="btn btn-primary btn-block">
+              <span>🚀 Đăng Nhập Ngay</span>
+            </button>
+          </div>
+          <div class="auth-footer-links">
+            <a href="#" id="link-to-forgot" class="auth-link">Quên mật khẩu? (Khôi phục bằng mã PIN)</a>
+            <span class="auth-separator">•</span>
+            <a href="#" id="link-to-register" class="auth-link">Chưa có tài khoản? Đăng ký miễn phí</a>
+          </div>
+        </div>
+
+        <!-- Panel 2: Register Form -->
+        <div class="auth-panel" id="auth-panel-register" style="display: none;">
+          <div class="form-group">
+            <label for="register-username">Tên hiển thị (Username)</label>
+            <input type="text" id="register-username" class="form-input" placeholder="Ví dụ: Quang Minh, Sarah Lee">
+          </div>
+          <div class="form-group">
+            <label for="register-email">Địa chỉ Email</label>
+            <input type="email" id="register-email" class="form-input" placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label for="register-password">Mật khẩu (ít nhất 6 ký tự)</label>
+            <input type="password" id="register-password" class="form-input" placeholder="Nhập mật khẩu an toàn">
+          </div>
+          <div class="auth-actions">
+            <button id="btn-submit-register" class="btn btn-primary btn-block">
+              <span>✨ Tạo Tài Khoản &amp; Nhận Mã PIN</span>
+            </button>
+          </div>
+
+          <!-- PIN Recovery Card (Shown after successful registration) -->
+          <div class="pin-recovery-card" id="register-pin-card" style="display: none;">
+            <div class="pin-card-header">
+              <span class="pin-badge">🚨 LƯU Ý BẢO MẬT QUAN TRỌNG</span>
+              <h4>Mã PIN Khôi Phục Tài Khoản Của Bạn</h4>
+              <p>Hệ thống bảo vệ tài khoản bằng mã PIN 6 số độc lập, không cần xác nhận email phức tạp. Nếu quên mật khẩu, bạn chỉ cần nhập mã PIN này:</p>
+            </div>
+            <div class="pin-display-wrap">
+              <div class="pin-code-highlight" id="register-pin-code">------</div>
+              <button id="btn-copy-pin" class="btn btn-secondary btn-sm" title="Sao chép mã PIN">
+                <span>📋 Sao chép PIN</span>
+              </button>
+            </div>
+            <div class="pin-card-actions">
+              <button id="btn-pin-confirm-done" class="btn btn-primary btn-sm btn-block">
+                <span>Tôi Đã Lưu Mã PIN — Bắt Đầu Học Ngay 🚀</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Forgot Password Form -->
+        <div class="auth-panel" id="auth-panel-forgot" style="display: none;">
+          <div class="auth-intro-note">
+            <span>ℹ️ Khôi phục mật khẩu tức thì bằng Mã PIN 6 số được cấp khi bạn tạo tài khoản.</span>
+          </div>
+          <div class="form-group">
+            <label for="forgot-email">Email tài khoản</label>
+            <input type="email" id="forgot-email" class="form-input" placeholder="Nhập email đã đăng ký">
+          </div>
+          <div class="form-group">
+            <label for="forgot-pin">Mã PIN khôi phục (6 chữ số)</label>
+            <input type="text" id="forgot-pin" class="form-input" maxlength="6" placeholder="Ví dụ: 825104">
+          </div>
+          <div class="form-group">
+            <label for="forgot-new-password">Mật khẩu mới</label>
+            <input type="password" id="forgot-new-password" class="form-input" placeholder="Tối thiểu 6 ký tự">
+          </div>
+          <div class="auth-actions">
+            <button id="btn-submit-forgot" class="btn btn-primary btn-block">
+              <span>🔒 Đặt Lại Mật Khẩu &amp; Đăng Nhập</span>
+            </button>
+          </div>
+          <div class="auth-footer-links">
+            <a href="#" id="link-forgot-to-login" class="auth-link">← Quay lại Đăng Nhập</a>
+          </div>
+        </div>
+
+        <!-- Panel 4: Authenticated Profile View (When Logged In) -->
+        <div class="auth-panel" id="auth-panel-profile" style="display: none;">
+          <div class="profile-card">
+            <div class="profile-avatar">🎓</div>
+            <div class="profile-info">
+              <h3 id="profile-display-name">Học Viên</h3>
+              <p id="profile-display-email">user@example.com</p>
+              <div class="profile-sync-badge">
+                <span>☁️ Đã kết nối &amp; Tự động đồng bộ tiến độ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-features-summary">
+            <div class="summary-pill">
+              <span class="pill-label">Chuỗi ngày</span>
+              <span class="pill-value" id="profile-streak-val">🔥 0 Ngày</span>
+            </div>
+            <div class="summary-pill">
+              <span class="pill-label">Tổng câu dịch</span>
+              <span class="pill-value" id="profile-total-val">🎯 0 Câu</span>
+            </div>
+            <div class="summary-pill">
+              <span class="pill-label">Từ vựng SRS</span>
+              <span class="pill-value" id="profile-vocab-val">📚 Cá nhân hóa</span>
+            </div>
+          </div>
+
+          <div class="auth-actions" style="margin-top: 1.5rem;">
+            <button id="btn-submit-logout" class="btn btn-danger btn-block">
+              <span>🚪 Đăng Xuất Khỏi Thiết Bị Này</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

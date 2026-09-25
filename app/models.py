@@ -252,7 +252,56 @@ class AssistantAskRequest(BaseModel):
 
 class AssistantAskResponse(BaseModel):
     answer_vi: str
+    answer: Optional[str] = None
     examples: List[str] = []
     tips: Optional[str] = None
+
+
+# ========================================================
+# USER AUTHENTICATION & MULTI-USER DATA MODELS
+# ========================================================
+
+class UserRecord(BaseModel):
+    id: str
+    email: str
+    username: str
+    password_hash: str
+    salt: str
+    recovery_pin_hash: str
+    created_at: str
+
+class AuthSession(BaseModel):
+    token: str
+    user_id: str
+    created_at: str
+    expires_at: str
+
+class RegisterRequest(BaseModel):
+    email: str
+    username: str
+    password: str
+
+class LoginRequest(BaseModel):
+    email_or_username: str
+    password: str
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+    recovery_pin: str
+    new_password: str
+
+class UserPublic(BaseModel):
+    id: str
+    email: str
+    username: str
+    created_at: str
+
+class AuthResponse(BaseModel):
+    success: bool
+    token: Optional[str] = None
+    user: Optional[UserPublic] = None
+    recovery_pin: Optional[str] = None
+    message: Optional[str] = None
+
 
 

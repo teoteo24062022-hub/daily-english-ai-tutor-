@@ -4,4 +4,6 @@ __pycache__/
 .env
 .superpowers/
 data/progress.json
+data/sessions.json
+data/users_data/
 .pytest_cache/

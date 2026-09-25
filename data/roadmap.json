@@ -1,0 +1,581 @@
+{
+  "current_day": 2,
+  "completed_days": [
+    1
+  ],
+  "phases": [
+    {
+      "id": "phase-1",
+      "number": 1,
+      "title": "Giai đoạn 1: Xây Gốc & Tăng Tốc",
+      "subtitle": "A0 → A2 (Nền tảng vững chắc)",
+      "days_range": "Ngày 1 - 30",
+      "color": "var(--primary)",
+      "description": "Làm chủ 44 âm IPA, cách đặt câu S + V + O, thì Hiện tại, Quá khứ, Tương lai và 600 từ vựng cốt lõi."
+    },
+    {
+      "id": "phase-2",
+      "number": 2,
+      "title": "Giai đoạn 2: Phản Xạ Độc Lập & Giao Tiếp Công Việc",
+      "subtitle": "A2 → B1 (Giao tiếp làm việc độc lập)",
+      "days_range": "Ngày 31 - 60",
+      "color": "#10b981",
+      "description": "Câu phức, liên từ nguyên nhân/kết quả/nhượng bộ, Standup chuyên nghiệp, Shadowing nối âm và viết email tài liệu kỹ thuật."
+    },
+    {
+      "id": "phase-3",
+      "number": 3,
+      "title": "Giai đoạn 3: Bứt Phá Lên B2 Chuyên Nghiệp & Kỹ Sư AI",
+      "subtitle": "B1 → B2 (Chuyên gia & Kỹ sư AI quốc tế)",
+      "days_range": "Ngày 61 - 90",
+      "color": "#8b5cf6",
+      "description": "Phân tích Trade-off kiến trúc, phản biện kỹ thuật, điều tra sự cố Post-mortem (RCA), cấu trúc đảo ngữ & phỏng vấn System Design chuẩn B2."
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "phase": 1,
+      "title": "Khởi động & Lời chào đầu tiên",
+      "goal": "Làm quen với đại từ I/You và cách chào hỏi, giới thiệu tên cơ bản.",
+      "theory": "Trong tiếng Anh, cấu trúc đơn giản nhất để giới thiệu bản thân là:\n• I am + [Tên / Nghề nghiệp] (Ví dụ: I am Alex. I am an engineer.)\n• My name is + [Tên]\n• Nice to meet you! (Rất vui được gặp bạn).",
+      "core_vocab": [
+        "hello",
+        "name",
+        "nice",
+        "meet",
+        "engineer"
+      ],
+      "sample_sentence": "Hello, my name is Nam. I am an AI engineer.",
+      "practice_tip": "Nói to rõ ràng từng từ, chú ý âm đuôi /s/ trong 'is' và 'nice'."
+    },
+    {
+      "day": 2,
+      "phase": 1,
+      "title": "Ngữ âm IPA: Nguyên âm đơn (/iː/ vs /ɪ/)",
+      "goal": "Phân biệt nguyên âm dài /iː/ (cười mỉm) và nguyên âm ngắn /ɪ/ (thả lỏng).",
+      "theory": "• /iː/ (Dài): Khẩu hình bè ngang như đang cười mỉm, kéo dài âm. Ví dụ: see /siː/, meet /miːt/, team /tiːm/.\n• /ɪ/ (Ngắn): Thả lỏng môi, phát âm dứt khoát như âm 'i' pha 'ê' nhẹ. Ví dụ: sit /sɪt/, fix /fɪks/, it /ɪt/.\nTránh nhầm lẫn giữa 'seat' (chỗ ngồi) và 'sit' (ngồi xuống).",
+      "core_vocab": [
+        "see",
+        "sit",
+        "team",
+        "fix",
+        "it"
+      ],
+      "sample_sentence": "Please sit here and meet the team.",
+      "practice_tip": "Luyện nhìn vào gương, khẩu hình miệng bè ngang khi đọc âm dài."
+    },
+    {
+      "day": 3,
+      "phase": 1,
+      "title": "Ngữ âm IPA: Nguyên âm đôi (/eɪ/, /aɪ/, /əʊ/)",
+      "goal": "Học cách lướt mượt mà từ âm thứ nhất sang âm thứ hai.",
+      "theory": "Nguyên âm đôi là sự kết hợp của 2 nguyên âm đơn:\n• /eɪ/: Day /deɪ/, Name /neɪm/, Train /treɪn/\n• /aɪ/: My /maɪ/, Time /taɪm/, Line /laɪn/\n• /əʊ/: Go /ɡəʊ/, Code /kəʊd/, Slow /sləʊ/",
+      "core_vocab": [
+        "day",
+        "time",
+        "code",
+        "train",
+        "slow"
+      ],
+      "sample_sentence": "I write code every single day.",
+      "practice_tip": "Không ngắt quãng giữa 2 âm, lướt nhẹ từ âm đầu sang âm sau."
+    },
+    {
+      "day": 4,
+      "phase": 1,
+      "title": "Ngữ âm IPA: Phụ âm khó (/θ/ vs /ð/)",
+      "goal": "Cách đặt lưỡi giữa 2 hàm răng để nói chuẩn âm 'th'.",
+      "theory": "Âm 'th' không có trong tiếng Việt. Đặt đầu lưỡi chạm nhẹ vào giữa hai hàm răng:\n• /θ/ (Không rung thanh quản - Unvoiced): Think /θɪŋk/, Thanks /θæŋks/, Three /θriː/\n• /ð/ (Có rung thanh quản - Voiced): This /ðɪs/, That /ðæt/, The /ðə/",
+      "core_vocab": [
+        "think",
+        "thanks",
+        "this",
+        "that",
+        "three"
+      ],
+      "sample_sentence": "Thank you for this helpful advice.",
+      "practice_tip": "Đặt ngón tay lên họng: âm /θ/ họng không rung, âm /ð/ cảm nhận rung rõ rệt."
+    },
+    {
+      "day": 5,
+      "phase": 1,
+      "title": "Đại từ nhân xưng & Động từ To Be",
+      "goal": "Nắm vững bảng đại từ I, You, We, They, He, She, It và To Be (am / is / are).",
+      "theory": "Quy tắc bất biến:\n• I + am (viết tắt: I'm)\n• You / We / They + are (viết tắt: You're / We're / They're)\n• He / She / It + is (viết tắt: He's / She's / It's)\nVí dụ: He is ready. We are engineers.",
+      "core_vocab": [
+        "ready",
+        "new",
+        "busy",
+        "online",
+        "here"
+      ],
+      "sample_sentence": "We are ready for the meeting.",
+      "practice_tip": "Luyện thói quen dùng dạng viết tắt khi nói để tự nhiên hơn."
+    },
+    {
+      "day": 6,
+      "phase": 1,
+      "title": "Đồ vật công nghệ & Nơi làm việc",
+      "goal": "Tên gọi các vật dụng quen thuộc của kỹ sư và lập trình viên.",
+      "theory": "Mạo từ A / An / The:\n• Dùng 'A' trước phụ âm: a laptop, a keyboard, a mouse\n• Dùng 'An' trước nguyên âm (u, e, o, a, i): an error, an algorithm\n• Dùng 'The' khi cả người nói và nghe đều biết vật đó.",
+      "core_vocab": [
+        "laptop",
+        "screen",
+        "keyboard",
+        "mouse",
+        "desk"
+      ],
+      "sample_sentence": "I need a new mouse and a clean desk.",
+      "practice_tip": "Gắn giấy ghi chú tiếng Anh lên đồ vật trên bàn làm việc của bạn."
+    },
+    {
+      "day": 7,
+      "phase": 1,
+      "title": "Số đếm & Giờ giấc (Numbers & Time)",
+      "goal": "Cách nói giờ, số phút và thời gian cuộc họp trong ngày.",
+      "theory": "• Giờ chẵn: It is 9 o'clock.\n• Giờ + phút: It is 9:30 (nine thirty), 10:15 (ten fifteen).\n• Dùng giới từ 'AT' cho mốc giờ cụ thể: at 9 AM, at 2 PM.",
+      "core_vocab": [
+        "clock",
+        "minute",
+        "hour",
+        "early",
+        "late"
+      ],
+      "sample_sentence": "Our meeting starts at 9:30 AM.",
+      "practice_tip": "Đọc to giờ hiển thị trên đồng hồ máy tính bằng tiếng Anh."
+    },
+    {
+      "day": 8,
+      "phase": 1,
+      "title": "Thì Hiện tại đơn 1: Chủ ngữ I / We / You / They",
+      "goal": "Nói về các hành động thường ngày với động từ nguyên mẫu.",
+      "theory": "Cấu trúc khẳng định:\n• S (I, You, We, They) + V (nguyên thể) + O\nVí dụ: I check my email. We write code.\nKhông thêm 's' hay 'es' với nhóm chủ ngữ này.",
+      "core_vocab": [
+        "check",
+        "write",
+        "open",
+        "read",
+        "start"
+      ],
+      "sample_sentence": "I check my email every morning.",
+      "practice_tip": "Lặp lại mẫu câu với các động từ khác nhau để tạo phản xạ."
+    },
+    {
+      "day": 9,
+      "phase": 1,
+      "title": "Thì Hiện tại đơn 2: Chủ ngữ He / She / It",
+      "goal": "Quy tắc thêm 's' hoặc 'es' sau động từ với ngôi thứ 3 số ít.",
+      "theory": "Khi chủ ngữ là He, She, It hoặc danh từ số ít (The model, The server):\n• Động từ thêm 's': runs, works, helps\n• Tận cùng là o, s, ch, x, sh thêm 'es': fixes, goes, watches\nVí dụ: The model runs very fast.",
+      "core_vocab": [
+        "runs",
+        "works",
+        "fixes",
+        "serves",
+        "stops"
+      ],
+      "sample_sentence": "The system runs smoothly today.",
+      "practice_tip": "Chú ý phát âm rõ âm /s/ hoặc /z/ ở đuôi động từ."
+    },
+    {
+      "day": 10,
+      "phase": 1,
+      "title": "Thói quen hàng ngày & Trạng từ tần suất",
+      "goal": "Cách dùng Always, Usually, Often, Sometimes, Never.",
+      "theory": "Vị trí của trạng từ tần suất: Đứng TRƯỚC động từ thường, đứng SAU động từ To Be.\n• I always review my code before merging.\n• The server is always active.",
+      "core_vocab": [
+        "always",
+        "usually",
+        "often",
+        "sometimes",
+        "never"
+      ],
+      "sample_sentence": "I always test my code before pushing.",
+      "practice_tip": "Tự đặt 3 câu về thói quen làm việc thực tế của chính bạn."
+    },
+    {
+      "day": 11,
+      "phase": 1,
+      "title": "Phủ định thì Hiện tại đơn: Don't & Doesn't",
+      "goal": "Cách nói 'không làm gì' trong giao tiếp thường nhật.",
+      "theory": "• I / You / We / They + DO NOT (don't) + V (nguyên mẫu)\n• He / She / It + DOES NOT (doesn't) + V (nguyên mẫu)\nLưu ý: Sau don't/doesn't thì động từ luôn trở về nguyên mẫu không chia!",
+      "core_vocab": [
+        "understand",
+        "agree",
+        "know",
+        "see",
+        "want"
+      ],
+      "sample_sentence": "I don't understand this error message.",
+      "practice_tip": "Đây là câu cửa miệng hữu ích nhất khi bạn gặp khó khăn."
+    },
+    {
+      "day": 12,
+      "phase": 1,
+      "title": "Câu hỏi Yes/No với Do và Does",
+      "goal": "Biết cách hỏi xác nhận thông tin nhanh trong cuộc trò chuyện.",
+      "theory": "Đảo Do/Does lên đầu câu:\n• Do + you/they + V (nguyên mẫu)...?\n• Does + he/she/it + V (nguyên mẫu)...?\nTrả lời: Yes, I do. / No, I don't.",
+      "core_vocab": [
+        "have",
+        "need",
+        "like",
+        "use",
+        "support"
+      ],
+      "sample_sentence": "Do you need help with this task?",
+      "practice_tip": "Lên giọng ở cuối câu hỏi Yes/No."
+    },
+    {
+      "day": 13,
+      "phase": 1,
+      "title": "Câu hỏi thông tin: What, Where, When, Why, How",
+      "goal": "Biết cách đặt câu hỏi để lấy thông tin chi tiết.",
+      "theory": "Cấu trúc: Từ để hỏi (Wh-) + do/does + S + V?\n• What do you do? (Bạn làm nghề gì?)\n• Where do you work? (Bạn làm việc ở đâu?)\n• When does the meeting start? (Khi nào cuộc họp bắt đầu?)\n• How does this model work? (Mô hình này hoạt động thế nào?)",
+      "core_vocab": [
+        "what",
+        "where",
+        "when",
+        "why",
+        "how"
+      ],
+      "sample_sentence": "When does the morning meeting start?",
+      "practice_tip": "Xuống giọng ở cuối câu hỏi Wh-."
+    },
+    {
+      "day": 14,
+      "phase": 1,
+      "title": "Ôn tập & Kiểm tra mốc 2 tuần đầu",
+      "goal": "Củng cố phản xạ To Be, Hiện tại đơn và các câu hỏi thường gặp.",
+      "theory": "Hãy tổng kết lại:\n1. Tự giới thiệu tên, nghề nghiệp\n2. Nói 2 thói quen làm việc hàng ngày\n3. Đặt 1 câu hỏi với Do you... và 1 câu hỏi với What...?",
+      "core_vocab": [
+        "review",
+        "practice",
+        "progress",
+        "goal",
+        "confident"
+      ],
+      "sample_sentence": "I am proud of my learning progress.",
+      "practice_tip": "Ghi âm giọng của bạn và nghe lại xem có phát âm rõ ràng không."
+    },
+    {
+      "day": 15,
+      "phase": 1,
+      "title": "Khả năng & Yêu cầu: Can & Can't",
+      "goal": "Diễn đạt những gì bạn có thể hoặc không thể làm.",
+      "theory": "• S + CAN + V (nguyên mẫu): Diễn tả khả năng. (I can code in Python.)\n• S + CANNOT (can't) + V: Không thể làm. (I can't join the call right now.)\n• Can you help me?: Lời nhờ vả lịch sự.",
+      "core_vocab": [
+        "can",
+        "join",
+        "hear",
+        "share",
+        "speak"
+      ],
+      "sample_sentence": "Can you hear me clearly?",
+      "practice_tip": "Câu kinh điển khi bắt đầu bất kỳ cuộc gọi Google Meet / Zoom nào!"
+    },
+    {
+      "day": 31,
+      "phase": 2,
+      "title": "Thì Quá khứ đơn 1: Was và Were",
+      "goal": "Kể lại trạng thái, tình huống trong quá khứ.",
+      "theory": "To Be trong quá khứ:\n• I / He / She / It + WAS (phủ định: wasn't)\n• You / We / They + WERE (phủ định: weren't)\nVí dụ: I was busy yesterday. The server was down.",
+      "core_vocab": [
+        "yesterday",
+        "busy",
+        "down",
+        "offline",
+        "last"
+      ],
+      "sample_sentence": "The server was down yesterday afternoon.",
+      "practice_tip": "Chú ý phát âm phân biệt /wʌz/ và /wɝː/."
+    },
+    {
+      "day": 32,
+      "phase": 2,
+      "title": "Thì Quá khứ đơn 2: Động từ có quy tắc (-ed)",
+      "goal": "Cách phát âm đuôi -ed (/t/, /d/, /ɪd/) chuẩn xác.",
+      "theory": "• Phát âm là /ɪd/ khi tận cùng là t, d: started, needed, tested\n• Phát âm là /t/ khi tận cùng là p, k, f, s, sh, ch: fixed, checked, pushed\n• Phát âm là /d/ cho các trường hợp còn lại: cleaned, trained, deployed",
+      "core_vocab": [
+        "tested",
+        "fixed",
+        "checked",
+        "trained",
+        "deployed"
+      ],
+      "sample_sentence": "I tested the code and fixed two bugs.",
+      "practice_tip": "Không đọc 'fix-xịt' hay 'check-kịt', chỉ bật âm /t/ nhẹ ở cuối."
+    },
+    {
+      "day": 33,
+      "phase": 2,
+      "title": "20 Động từ bất quy tắc thiết yếu trong công việc",
+      "goal": "Ghi nhớ các động từ hay gặp nhất: did, wrote, got, saw, built, made.",
+      "theory": "Một số động từ đổi dạng hoàn toàn ở quá khứ:\n• do -> did\n• write -> wrote\n• make -> made\n• build -> built\n• find -> found",
+      "core_vocab": [
+        "did",
+        "wrote",
+        "built",
+        "found",
+        "made"
+      ],
+      "sample_sentence": "We built a new pipeline last week.",
+      "practice_tip": "Học theo cặp Hiện tại - Quá khứ để nhớ sâu."
+    },
+    {
+      "day": 34,
+      "phase": 2,
+      "title": "Thì Tương lai: Will & Won't",
+      "goal": "Nói về kế hoạch, lời hứa hẹn và dự đoán.",
+      "theory": "• S + will + V (nguyên mẫu): Sẽ làm gì đó. (I will finish this task today.)\n• S + will not (won't) + V: Sẽ không làm gì. (I won't be late.)\n• Viết tắt: I'll, You'll, We'll.",
+      "core_vocab": [
+        "will",
+        "finish",
+        "update",
+        "send",
+        "tomorrow"
+      ],
+      "sample_sentence": "I will send you the pull request today.",
+      "practice_tip": "Luyện phát âm I'll (/aɪl/) tự nhiên và gọn gàng."
+    },
+    {
+      "day": 35,
+      "phase": 2,
+      "title": "Daily Standup kinh điển 1: Việc đã làm (Yesterday)",
+      "goal": "Tự tin báo cáo công việc ngày hôm qua trong buổi họp Standup.",
+      "theory": "Công thức mẫu câu:\n• Yesterday, I worked on + [tên task]\n• Yesterday, I completed + [tên task]\n• Yesterday, I investigated the issue with + [tên bug]",
+      "core_vocab": [
+        "worked",
+        "completed",
+        "investigated",
+        "feature",
+        "task"
+      ],
+      "sample_sentence": "Yesterday, I worked on the data preprocessing module.",
+      "practice_tip": "Chuẩn bị sẵn 1 câu trước giờ họp 5 phút để nói thật trôi chảy."
+    },
+    {
+      "day": 36,
+      "phase": 2,
+      "title": "Daily Standup kinh điển 2: Việc sẽ làm (Today)",
+      "goal": "Báo cáo mục tiêu và kế hoạch hành động hôm nay.",
+      "theory": "Công thức mẫu câu:\n• Today, I will focus on + [V-ing / danh từ]\n• Today, I plan to + [V-nguyên mẫu]\n• Today, I am going to write unit tests for the API.",
+      "core_vocab": [
+        "focus",
+        "plan",
+        "deliver",
+        "continue",
+        "implement"
+      ],
+      "sample_sentence": "Today, I will focus on training the baseline model.",
+      "practice_tip": "Dùng 'focus on' thể hiện sự tập trung cao độ và chuyên nghiệp."
+    },
+    {
+      "day": 37,
+      "phase": 2,
+      "title": "Daily Standup kinh điển 3: Trở ngại & Khó khăn (Blockers)",
+      "goal": "Biết cách thông báo lỗi bị kẹt và kêu gọi sự trợ giúp kịp thời.",
+      "theory": "Công thức mẫu câu:\n• I have no blockers today. (Tôi không bị vướng mắc gì.)\n• I am blocked by + [vấn đề / ai đó]\n• I need some help from + [tên người / team] to solve this issue.",
+      "core_vocab": [
+        "blocker",
+        "blocked",
+        "issue",
+        "stuck",
+        "resolve"
+      ],
+      "sample_sentence": "I have no blockers and everything is on track.",
+      "practice_tip": "Nếu có blocker, hãy nói ngắn gọn nguyên nhân và ai có thể giúp bạn."
+    },
+    {
+      "day": 61,
+      "phase": 3,
+      "title": "Thuật ngữ Kỹ sư AI: Pipeline, Latency, Accuracy",
+      "goal": "Thành thạo các thuật ngữ cốt lõi khi nói về hệ thống AI.",
+      "theory": "Cách kết hợp từ chuyên ngành:\n• Reduce inference latency (giảm độ trễ suy luận)\n• Improve model accuracy (nâng cao độ chính xác của mô hình)\n• Optimize data pipeline (tối ưu đường ống dữ liệu)",
+      "core_vocab": [
+        "latency",
+        "accuracy",
+        "pipeline",
+        "throughput",
+        "inference"
+      ],
+      "sample_sentence": "Our primary goal is to reduce latency while maintaining accuracy.",
+      "practice_tip": "Nói liền mạch cụm 'reduce latency while maintaining accuracy'."
+    },
+    {
+      "day": 62,
+      "phase": 3,
+      "title": "Diễn đạt Nguyên nhân - Kết quả: Because, So, Due to",
+      "goal": "Giải thích logic kỹ thuật tại sao bug xảy ra hoặc tại sao chọn giải pháp đó.",
+      "theory": "• Because + Mệnh đề (S + V): The job failed because the GPU ran out of memory.\n• Due to + Cụm danh từ: Due to high memory usage, the job failed.\n• S + V, so + S + V: The model was slow, so we quantized it.",
+      "core_vocab": [
+        "because",
+        "due",
+        "therefore",
+        "reason",
+        "result"
+      ],
+      "sample_sentence": "The server crashed due to high traffic spike.",
+      "practice_tip": "Dùng 'Due to' trong văn bản báo cáo tạo cảm giác học thuật và chuyên nghiệp."
+    },
+    {
+      "day": 63,
+      "phase": 3,
+      "title": "Báo cáo lỗi & Thảo luận Bug kỹ thuật",
+      "goal": "Cách mô tả triệu chứng lỗi (symptoms) và các bước tái hiện (reproduce).",
+      "theory": "Cấu trúc báo cáo bug chuẩn quốc tế:\n• Symptom: The API returns a 500 error when given an empty prompt.\n• Cause: It is missing input validation.\n• Fix: I added a check before sending the request.",
+      "core_vocab": [
+        "symptom",
+        "cause",
+        "reproduce",
+        "validation",
+        "crash"
+      ],
+      "sample_sentence": "We can reproduce this bug by sending an empty payload.",
+      "practice_tip": "Tránh nói chung chung 'It is broken', hãy nói rõ mã lỗi và bước kích hoạt."
+    },
+    {
+      "day": 64,
+      "phase": 3,
+      "title": "Đưa ra ý kiến & Đề xuất giải pháp (Proposals)",
+      "goal": "Biết cách nêu quan điểm lịch sự nhưng thuyết phục trong buổi họp Tech.",
+      "theory": "Mẫu câu mở đầu đề xuất:\n• In my opinion, we should + [V-nguyên mẫu]...\n• I suggest that we + [V-nguyên mẫu]...\n• What if we use a caching layer to reduce database load?\n• From my perspective, this approach is more scalable.",
+      "core_vocab": [
+        "opinion",
+        "suggest",
+        "perspective",
+        "scalable",
+        "approach"
+      ],
+      "sample_sentence": "I suggest that we use caching to improve response time.",
+      "practice_tip": "Dùng 'I suggest that we...' để đề xuất mang tính xây dựng đồng đội."
+    },
+    {
+      "day": 65,
+      "phase": 3,
+      "title": "Phân tích Trade-offs (Sự đánh đổi giải pháp kỹ thuật)",
+      "goal": "Biết cách so sánh ưu - nhược điểm giữa hai phương án kỹ thuật như một Senior/Lead Engineer.",
+      "theory": "Mẫu câu so sánh đánh đổi B2:\n• While option A offers [ưu điểm 1], option B provides [ưu điểm 2].\n• There is an inevitable trade-off between latency and accuracy.\n• We decided to compromise on throughput to achieve lower memory consumption.",
+      "core_vocab": [
+        "trade-off",
+        "compromise",
+        "consumption",
+        "inevitable",
+        "preferable"
+      ],
+      "sample_sentence": "While option A reduces latency, option B is significantly more scalable.",
+      "practice_tip": "Nói trôi chảy cấu trúc 'While X..., Y...' để thể hiện tư duy đa chiều."
+    },
+    {
+      "day": 66,
+      "phase": 3,
+      "title": "Câu điều kiện hỗn hợp & Câu điều kiện loại 3 trong Tech",
+      "goal": "Diễn đạt giả định trong quá khứ và hậu quả ở hiện tại/quá khứ khi xảy ra sự cố.",
+      "theory": "Cấu trúc:\n• If + S + had + V3/ed, S + would/could + have + V3/ed (Quá khứ)\nVí dụ: If we had cached the queries, the server wouldn't have crashed.\n• Đảo ngữ nâng cao: Had we implemented rate limiting, the incident could have been prevented.",
+      "core_vocab": [
+        "had",
+        "prevented",
+        "incident",
+        "cached",
+        "crashed"
+      ],
+      "sample_sentence": "Had we cached the queries, the database would not have crashed.",
+      "practice_tip": "Luyện cấu trúc đảo ngữ 'Had we + V3...' để tạo ấn tượng chuyên nghiệp trong báo cáo."
+    },
+    {
+      "day": 67,
+      "phase": 3,
+      "title": "Cấu trúc Đảo ngữ & Nhấn mạnh (Inversion for Emphasis)",
+      "goal": "Sử dụng câu đảo ngữ để nhấn mạnh lợi ích vượt trội của giải pháp trong cuộc họp.",
+      "theory": "Quy tắc: Not only + Trợ động từ + S + V..., but also...\n• Not only does this model reduce inference cost, but it also improves throughput.\n• Under no circumstances should sensitive API keys be committed to git.",
+      "core_vocab": [
+        "not only",
+        "accelerate",
+        "throughput",
+        "circumstances",
+        "committed"
+      ],
+      "sample_sentence": "Not only does this approach reduce latency, but it also improves accuracy.",
+      "practice_tip": "Đảo ngữ 'Not only does...' thường xuất hiện trong các bài thuyết trình Tech uy tín."
+    },
+    {
+      "day": 68,
+      "phase": 3,
+      "title": "Thảo luận Kiến trúc RAG & Vector Database",
+      "goal": "Tự tin giải thích kiến trúc tìm kiếm ngữ nghĩa và mô hình ngôn ngữ lớn (LLM).",
+      "theory": "Thuật ngữ & cấu trúc:\n• The ingestion pipeline splits documents into chunks and generates dense embeddings.\n• Vector search retrieves the top-k most relevant contexts via cosine similarity.\n• Prompt enrichment feeds the retrieved context into the LLM.",
+      "core_vocab": [
+        "retrieval",
+        "embedding",
+        "similarity",
+        "chunking",
+        "enrichment"
+      ],
+      "sample_sentence": "The RAG pipeline retrieves relevant context to ground the LLM response.",
+      "practice_tip": "Nói liền mạch cụm 'to ground the LLM response' (để định vị câu trả lời chuẩn xác)."
+    },
+    {
+      "day": 69,
+      "phase": 3,
+      "title": "Báo cáo sự cố Post-Mortem & Phân tích nguyên nhân (RCA)",
+      "goal": "Trình bày phân tích sự cố khách quan (blameless post-mortem) trước toàn bộ ban lãnh đạo.",
+      "theory": "Cấu trúc báo cáo RCA chuẩn:\n1. Timeline: What happened and when.\n2. Root Cause: The primary trigger of the failure.\n3. Impact: Number of affected users / degraded services.\n4. Action Items: Preventative measures and mitigation plans.",
+      "core_vocab": [
+        "post-mortem",
+        "mitigate",
+        "recurrence",
+        "trigger",
+        "affected"
+      ],
+      "sample_sentence": "We implemented circuit breakers to mitigate the risk of cascading failures.",
+      "practice_tip": "Dùng 'prevent recurrence' (ngăn chặn tái diễn) thay vì chỉ nói 'fix bug'."
+    },
+    {
+      "day": 70,
+      "phase": 3,
+      "title": "Tranh biện xây dựng trong Code Review (Constructive Feedback)",
+      "goal": "Cách góp ý code lịch sự, tránh áp đặt nhưng bảo đảm chất lượng phần mềm cao nhất.",
+      "theory": "Mẫu câu phản hồi tinh tế B2:\n• Could we consider refactoring this function to enhance readability?\n• I'm slightly concerned about potential race conditions here; what are your thoughts on using a lock?\n• Have you considered the memory footprint for large payloads?",
+      "core_vocab": [
+        "refactor",
+        "concerned",
+        "footprint",
+        "readability",
+        "potential"
+      ],
+      "sample_sentence": "Could we refactor this function to improve asynchronous readability?",
+      "practice_tip": "Bắt đầu bằng 'Could we consider...' tạo sự cởi mở và tôn trọng đồng đội."
+    },
+    {
+      "day": 71,
+      "phase": 3,
+      "title": "Phỏng vấn Kỹ thuật Chuẩn B2 (Phương pháp STAR)",
+      "goal": "Trả lời phỏng vấn hành vi và kỹ thuật theo mô hình chuẩn quốc tế STAR.",
+      "theory": "Mô hình STAR:\n• S (Situation): Ngữ cảnh vấn đề gặp phải.\n• T (Task): Nhiệm vụ cụ thể bạn chịu trách nhiệm.\n• A (Action): Các hành động và kỹ thuật bạn đã trực tiếp áp dụng.\n• R (Result): Kết quả định lượng đạt được (VD: giảm 40% latency).",
+      "core_vocab": [
+        "situation",
+        "achieved",
+        "quantifiable",
+        "initiative",
+        "collaborated"
+      ],
+      "sample_sentence": "As a result of our optimization, model latency dropped by 45 percent.",
+      "practice_tip": "Luôn đưa ra con số phần trăm (%) hoặc số liệu đo lường cụ thể ở bước Result."
+    },
+    {
+      "day": 90,
+      "phase": 3,
+      "title": "Tốt nghiệp 90 ngày: Tự tin giao tiếp và phỏng vấn AI B2",
+      "goal": "Đạt chuẩn B2: Tự tin thuyết trình, tranh luận kỹ thuật và làm việc trong môi trường quốc tế.",
+      "theory": "Bạn đã hoàn thành chặng đường bứt phá lên B2:\n✓ 44 âm IPA và ngữ điệu tự nhiên như người bản xứ\n✓ 1000+ từ vựng học thuật & thuật ngữ AI/Tech chuyên sâu\n✓ Phản xạ giải thích kiến trúc, RCA, Post-Mortem và phỏng vấn STAR\n✓ Tự tin tranh luận và làm việc cùng đồng nghiệp toàn cầu!",
+      "core_vocab": [
+        "mastery",
+        "achieve",
+        "articulate",
+        "fluency",
+        "professional"
+      ],
+      "sample_sentence": "I am fully articulate in discussing complex AI architecture in English.",
+      "practice_tip": "Chúc mừng bạn đã chinh phục chuẩn B2! Hãy tiếp tục duy trì phản xạ mỗi ngày."
+    }
+  ]
+}

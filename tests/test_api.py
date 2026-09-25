@@ -27,6 +27,10 @@ async def test_config_endpoints():
         res_after = await ac.get("/api/config")
         assert res_after.json()["has_api_key"] is True
 
+        # Reset for subsequent tests
+        from app.config import set_runtime_api_key
+        set_runtime_api_key("")
+
 
 @pytest.mark.anyio
 async def test_topics_endpoint():
@@ -108,3 +112,49 @@ def test_clean_json_response():
     surrounded = "Here is the response:\n{\"score\": 88, \"is_correct\": true}\nHope this helps!"
     result2 = clean_json_response(surrounded)
     assert result2["score"] == 88
+
+
+@pytest.mark.anyio
+async def test_quick_check_endpoint():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        req = {
+            "text": "I fix CUDA bug yesterday.",
+            "topic_name": "AI Debugging",
+            "custom_api_key": ""
+        }
+        res = await ac.post("/api/quick-check", json=req)
+        assert res.status_code == 200
+        data = res.json()
+        assert "score" in data
+        assert "metrics" in data
+        assert "inline_suggestions" in data
+        assert "corrected_text" in data
+        assert "summary" in data
+
+
+@pytest.mark.anyio
+async def test_create_topic_endpoint():
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        req = {
+            "topic_name": "GPU Memory Optimization",
+            "category": "tech",
+            "count": 5,
+            "custom_api_key": ""
+        }
+        res = await ac.post("/api/topics/create", json=req)
+        assert res.status_code == 200
+        data = res.json()
+        assert data["success"] is True
+        assert "topic" in data
+        assert len(data["topic"]["sentences"]) == 5
+
+        # Cleanup created test topic
+        import json
+        from app.storage import TOPICS_FILE
+        with open(TOPICS_FILE, "r", encoding="utf-8") as f:
+            topics = json.load(f)
+        topics = [t for t in topics if t.get("name") != "GPU Memory Optimization"]
+        with open(TOPICS_FILE, "w", encoding="utf-8") as f:
+            json.dump(topics, f, ensure_ascii=False, indent=2)
+
+
