@@ -225,7 +225,44 @@ const elements = {
   quizTargetIpa: document.getElementById('quiz-target-ipa'),
   quizOptionsGrid: document.getElementById('quiz-options-grid'),
   quizFeedbackBox: document.getElementById('quiz-feedback-box'),
-  btnNextQuiz: document.getElementById('btn-next-quiz')
+  btnNextQuiz: document.getElementById('btn-next-quiz'),
+
+  // ==========================================
+  // STORY GENERATOR MODAL ELEMENTS
+  // ==========================================
+  btnOpenStoryGen: document.getElementById('btn-open-story-gen'),
+  storyGenModal: document.getElementById('story-gen-modal'),
+  storyGenClose: document.getElementById('story-gen-close'),
+  btnCloseStoryModal: document.getElementById('btn-close-story-modal'),
+  storyTargetWordsPills: document.getElementById('story-target-words-pills'),
+  btnRunStoryGen: document.getElementById('btn-run-story-gen'),
+  storyGenStatus: document.getElementById('story-gen-status'),
+  storyResultCard: document.getElementById('story-result-card'),
+  storyTitleEn: document.getElementById('story-title-en'),
+  storyTitleVi: document.getElementById('story-title-vi'),
+  btnPlayStoryAudio: document.getElementById('btn-play-story-audio'),
+  btnToggleBilingual: document.getElementById('btn-toggle-bilingual'),
+  storyContentEn: document.getElementById('story-content-en'),
+  storyContentVi: document.getElementById('story-content-vi'),
+  storyQuizSection: document.getElementById('story-quiz-section'),
+  storyQuizList: document.getElementById('story-quiz-list'),
+
+  // ==========================================
+  // PRONUNCIATION DIFF & SHADOWING ELEMENTS
+  // ==========================================
+  pronunScoreBadge: document.getElementById('pronun-score-badge'),
+  pronunChipsContainer: document.getElementById('pronun-chips-container'),
+  btnReplayShadowing: document.getElementById('btn-replay-shadowing'),
+
+  // ==========================================
+  // FLOATING INSTANT AI ASSISTANT ELEMENTS
+  // ==========================================
+  btnFloatingAssistant: document.getElementById('btn-floating-assistant'),
+  assistantDrawer: document.getElementById('assistant-drawer'),
+  assistantDrawerClose: document.getElementById('assistant-drawer-close'),
+  assistantMessagesStream: document.getElementById('assistant-messages-stream'),
+  assistantInputBox: document.getElementById('assistant-input-box'),
+  btnAssistantSubmit: document.getElementById('btn-assistant-submit')
 };
 
 // ==========================================================================
@@ -236,6 +273,9 @@ async function initApp() {
   setupNavigationTabs();
   setupEventListeners();
   setupSpeechEngine();
+  setupStoryGeneratorEvents();
+  setupPronunciationShadowingEvents();
+  setupFloatingAssistantEvents();
 
   try {
     // 1. Load config & API Key
@@ -1078,8 +1118,14 @@ function displayFeedback(result) {
     elements.vocabSpotlight.textContent = 'Dùng từ vựng chuẩn xác ngữ cảnh!';
   }
 
-  // Speaking advice
-  elements.speakingAdvice.textContent = result.speaking_feedback || 'Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại 3 lần để rèn phản xạ cơ miệng.';
+  // Speaking advice & Pronunciation Diff
+  if (elements.speakingAdvice) {
+    elements.speakingAdvice.textContent = result.speaking_feedback || 'Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại 3 lần để rèn phản xạ cơ miệng.';
+  }
+
+  // Trigger AI Pronunciation Diff evaluation
+  const targetSent = result.corrected_sentence || (getCurrentSentence() ? getCurrentSentence().english : '');
+  handlePronunciationDiffEvaluation(targetSent, userText);
 
   // Encouragement
   elements.encouragementText.textContent = result.encouragement || 'Mỗi ngày kiên trì 15 phút sẽ giúp bạn nói tiếng Anh tự nhiên!';
@@ -1654,6 +1700,9 @@ function escapeHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // ==========================================================================
 // VIEW 4: AI VOICE ROLEPLAY ARENA CONTROLLER
 // ==========================================================================
@@ -1981,6 +2030,375 @@ function setupRoleplayEventListeners() {
   }
 }
 
+// ==========================================================================
+// FEATURE 2: AI SMART CONTEXTUAL STORY GENERATOR
+// ==========================================================================
+let storyBilingualVisible = true;
+
+function setupStoryGeneratorEvents() {
+  if (elements.btnOpenStoryGen) {
+    elements.btnOpenStoryGen.addEventListener('click', openStoryGeneratorModal);
+  }
+  if (elements.storyGenClose) {
+    elements.storyGenClose.addEventListener('click', () => {
+      elements.storyGenModal.classList.remove('active');
+    });
+  }
+  if (elements.btnCloseStoryModal) {
+    elements.btnCloseStoryModal.addEventListener('click', () => {
+      elements.storyGenModal.classList.remove('active');
+    });
+  }
+  if (elements.btnRunStoryGen) {
+    elements.btnRunStoryGen.addEventListener('click', handleRunStoryGen);
+  }
+  if (elements.btnToggleBilingual) {
+    elements.btnToggleBilingual.addEventListener('click', () => {
+      storyBilingualVisible = !storyBilingualVisible;
+      if (elements.storyContentVi) {
+        elements.storyContentVi.style.display = storyBilingualVisible ? 'block' : 'none';
+      }
+    });
+  }
+  if (elements.btnPlayStoryAudio) {
+    elements.btnPlayStoryAudio.addEventListener('click', () => {
+      if (state.story.currentStory && state.story.currentStory.content_en) {
+        speakText(state.story.currentStory.content_en, 1.0);
+      }
+    });
+  }
+}
+
+function openStoryGeneratorModal() {
+  // Select target words from SRS due / again or active vocabulary
+  const allVocab = state.vocabulary || [];
+  let targetWords = allVocab.filter(w => (w.srs_stage === 0 || w.is_due));
+  if (targetWords.length < 5) {
+    const list = getFilteredVocabList();
+    targetWords = list.slice(0, 8);
+  } else {
+    targetWords = targetWords.slice(0, 8);
+  }
+
+  state.story.targetWords = targetWords.map(w => w.word);
+
+  if (elements.storyTargetWordsPills) {
+    elements.storyTargetWordsPills.innerHTML = '';
+    state.story.targetWords.forEach(word => {
+      const pill = document.createElement('span');
+      pill.className = 'story-word-pill';
+      pill.textContent = `📌 ${word}`;
+      elements.storyTargetWordsPills.appendChild(pill);
+    });
+  }
+
+  if (elements.storyResultCard) elements.storyResultCard.style.display = 'none';
+  if (elements.storyGenStatus) elements.storyGenStatus.style.display = 'none';
+  if (elements.storyGenModal) elements.storyGenModal.classList.add('active');
+}
+
+async function handleRunStoryGen() {
+  if (!state.story.targetWords || state.story.targetWords.length === 0) {
+    alert('Không tìm thấy từ vựng mục tiêu để sáng tác truyện.');
+    return;
+  }
+
+  if (elements.btnRunStoryGen) {
+    elements.btnRunStoryGen.disabled = true;
+  }
+  if (elements.storyGenStatus) {
+    elements.storyGenStatus.style.display = 'block';
+  }
+
+  try {
+    const story = await generateVocabStory(state.story.targetWords, 'tech_workplace', state.apiKey);
+    state.story.currentStory = story;
+    renderStoryResult(story);
+  } catch (err) {
+    alert('Lỗi sáng tác truyện: ' + err.message);
+  } finally {
+    if (elements.btnRunStoryGen) elements.btnRunStoryGen.disabled = false;
+    if (elements.storyGenStatus) elements.storyGenStatus.style.display = 'none';
+  }
+}
+
+function renderStoryResult(story) {
+  if (!story || !elements.storyResultCard) return;
+
+  if (elements.storyTitleEn) elements.storyTitleEn.textContent = story.title_en || 'Short Story';
+  if (elements.storyTitleVi) elements.storyTitleVi.textContent = story.title_vi || 'Truyện Ngắn Ngữ Cảnh';
+
+  // Highlight target words in English story
+  if (elements.storyContentEn) {
+    let rawContent = escapeHtml(story.content_en || '');
+    (story.target_words_included || state.story.targetWords || []).forEach(tw => {
+      const reg = new RegExp(`\\b(${tw})\\b`, 'gi');
+      rawContent = rawContent.replace(reg, '<span class="story-highlight-word">$1</span>');
+    });
+    elements.storyContentEn.innerHTML = rawContent;
+  }
+
+  if (elements.storyContentVi) {
+    elements.storyContentVi.textContent = story.content_vi || '';
+    elements.storyContentVi.style.display = 'block';
+    storyBilingualVisible = true;
+  }
+
+  // Mini comprehension quiz
+  if (elements.storyQuizSection && elements.storyQuizList) {
+    elements.storyQuizList.innerHTML = '';
+    const quizzes = story.comprehension_quiz || [];
+    if (quizzes.length > 0) {
+      elements.storyQuizSection.style.display = 'block';
+      quizzes.forEach((q, idx) => {
+        const qCard = document.createElement('div');
+        qCard.className = 'story-quiz-card';
+        qCard.innerHTML = `
+          <div class="story-quiz-q">Câu hỏi ${idx + 1}: ${escapeHtml(q.question)}</div>
+          <div class="quiz-options"></div>
+          <div class="quiz-explanation">${escapeHtml(q.explanation || '')}</div>
+        `;
+        const optsContainer = qCard.querySelector('.quiz-options');
+        const explBox = qCard.querySelector('.quiz-explanation');
+
+        (q.options || []).forEach(opt => {
+          const optBtn = document.createElement('button');
+          optBtn.className = 'quiz-option-btn';
+          optBtn.textContent = opt;
+          optBtn.addEventListener('click', () => {
+            const allBtns = optsContainer.querySelectorAll('.quiz-option-btn');
+            allBtns.forEach(b => b.disabled = true);
+            if (opt === q.correct_answer) {
+              optBtn.classList.add('correct');
+            } else {
+              optBtn.classList.add('wrong');
+              allBtns.forEach(b => {
+                if (b.textContent === q.correct_answer) b.classList.add('correct');
+              });
+            }
+            explBox.style.display = 'block';
+          });
+          optsContainer.appendChild(optBtn);
+        });
+
+        elements.storyQuizList.appendChild(qCard);
+      });
+    } else {
+      elements.storyQuizSection.style.display = 'none';
+    }
+  }
+
+  elements.storyResultCard.style.display = 'flex';
+}
+
+// ==========================================================================
+// FEATURE 3: PRONUNCIATION DIAGNOSTICS DIFF & MULTI-SPEED SHADOWING
+// ==========================================================================
+function setupPronunciationShadowingEvents() {
+  // Shadowing speed buttons
+  const rateBtns = document.querySelectorAll('.shadowing-rates .btn-rate');
+  rateBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      rateBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const rate = parseFloat(btn.dataset.rate) || 1.0;
+      state.pronunciation.shadowingRate = rate;
+    });
+  });
+
+  // Replay shadowing button
+  if (elements.btnReplayShadowing) {
+    elements.btnReplayShadowing.addEventListener('click', () => {
+      const sentenceToSpeak = (elements.correctedText && elements.correctedText.textContent) 
+        || (getCurrentSentence() ? getCurrentSentence().english : '');
+      if (sentenceToSpeak) {
+        speakText(sentenceToSpeak, state.pronunciation.shadowingRate || 1.0);
+      }
+    });
+  }
+}
+
+async function handlePronunciationDiffEvaluation(targetSentence, spokenText) {
+  if (!elements.pronunChipsContainer) return;
+
+  if (!spokenText || !targetSentence) {
+    elements.pronunChipsContainer.innerHTML = '<span class="pronun-tip-init">Hãy bấm micro nói câu tiếng Anh ở trên để hệ thống tự động soi chi tiết từng từ &amp; âm đuôi.</span>';
+    if (elements.pronunScoreBadge) {
+      elements.pronunScoreBadge.textContent = 'Điểm: --';
+      elements.pronunScoreBadge.className = 'pronun-score-badge';
+    }
+    return;
+  }
+
+  elements.pronunChipsContainer.innerHTML = '<span class="pronun-tip-init" style="color: var(--accent-cyan);">⏳ Đang soi chi tiết từng âm đuôi...</span>';
+
+  try {
+    const analysis = await evaluatePronunciation(targetSentence, spokenText, state.apiKey);
+    renderPronunciationDiff(analysis);
+  } catch (err) {
+    console.warn('Pronunciation diff error:', err);
+    elements.pronunChipsContainer.innerHTML = `<span class="pronun-tip-init" style="color: #f87171;">Không thể phân tích: ${escapeHtml(err.message)}</span>`;
+  }
+}
+
+function renderPronunciationDiff(analysis) {
+  if (!analysis || !elements.pronunChipsContainer) return;
+
+  const score = analysis.pronunciation_score || 0;
+  if (elements.pronunScoreBadge) {
+    elements.pronunScoreBadge.textContent = `Điểm: ${score}%`;
+    elements.pronunScoreBadge.className = 'pronun-score-badge';
+    if (score >= 80) elements.pronunScoreBadge.classList.add('high');
+    else if (score >= 60) elements.pronunScoreBadge.classList.add('medium');
+    else elements.pronunScoreBadge.classList.add('low');
+  }
+
+  elements.pronunChipsContainer.innerHTML = '';
+  const words = analysis.words || [];
+
+  if (words.length === 0) {
+    elements.pronunChipsContainer.innerHTML = '<span class="pronun-tip-init">Không có từ nào được phát hiện.</span>';
+    return;
+  }
+
+  words.forEach(w => {
+    const chip = document.createElement('div');
+    const status = w.status || 'correct';
+    const statusClass = status === 'correct' ? 'chip-correct' : (status === 'minor_issue' ? 'chip-warning' : 'chip-error');
+    chip.className = `pronun-chip ${statusClass}`;
+
+    const tagText = status === 'correct' ? '✓ chuẩn' : (w.detail || status);
+    chip.innerHTML = `
+      <span class="chip-word">${escapeHtml(w.word)}</span>
+      <span class="chip-tag">${escapeHtml(tagText)}</span>
+    `;
+    elements.pronunChipsContainer.appendChild(chip);
+  });
+}
+
+// ==========================================================================
+// FEATURE 4: INSTANT AI EXPLAIN ASSISTANT (FLOATING DRAWER)
+// ==========================================================================
+function setupFloatingAssistantEvents() {
+  if (elements.btnFloatingAssistant) {
+    elements.btnFloatingAssistant.addEventListener('click', () => {
+      toggleAssistantDrawer(true);
+    });
+  }
+
+  if (elements.assistantDrawerClose) {
+    elements.assistantDrawerClose.addEventListener('click', () => {
+      toggleAssistantDrawer(false);
+    });
+  }
+
+  if (elements.btnAssistantSubmit) {
+    elements.btnAssistantSubmit.addEventListener('click', () => {
+      handleAssistantAsk();
+    });
+  }
+
+  if (elements.assistantInputBox) {
+    elements.assistantInputBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleAssistantAsk();
+    });
+  }
+
+  // Quick Prompt buttons
+  const quickBtns = document.querySelectorAll('.assistant-quick-prompts .quick-prompt-btn');
+  quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.q;
+      if (q) {
+        if (elements.assistantInputBox) elements.assistantInputBox.value = q;
+        handleAssistantAsk(q);
+      }
+    });
+  });
+
+  // Capture selected text across entire app
+  document.addEventListener('mouseup', () => {
+    const selection = window.getSelection();
+    if (!selection) return;
+    const selectedText = selection.toString().trim();
+    if (selectedText && selectedText.length > 2 && selectedText.length < 100) {
+      if (elements.assistantInputBox && !elements.assistantInputBox.value) {
+        elements.assistantInputBox.placeholder = `Hỏi về: "${selectedText.slice(0, 25)}..."`;
+        state.assistant.activeSelection = selectedText;
+      }
+    }
+  });
+}
+
+function toggleAssistantDrawer(open) {
+  state.assistant.isOpen = open;
+  if (!elements.assistantDrawer) return;
+
+  if (open) {
+    elements.assistantDrawer.classList.add('open');
+    if (state.assistant.activeSelection && elements.assistantInputBox) {
+      elements.assistantInputBox.value = `Giải thích nghĩa và cách dùng từ/cụm từ "${state.assistant.activeSelection}"`;
+      state.assistant.activeSelection = null;
+    }
+    if (elements.assistantInputBox) elements.assistantInputBox.focus();
+  } else {
+    elements.assistantDrawer.classList.remove('open');
+  }
+}
+
+async function handleAssistantAsk(customQuestion) {
+  const inputVal = customQuestion || (elements.assistantInputBox ? elements.assistantInputBox.value.trim() : '');
+  if (!inputVal) return;
+
+  if (elements.assistantInputBox) elements.assistantInputBox.value = '';
+
+  // Render user question
+  appendAssistantMessage('user', inputVal);
+
+  // Render thinking indicator
+  const thinkingId = 'assistant-thinking-' + Date.now();
+  appendAssistantMessage('ai', 'Đang suy nghĩ câu trả lời... 💭', thinkingId);
+
+  // Context gathering
+  let context = '';
+  if (state.currentTab === 'practice') {
+    const curSent = getCurrentSentence();
+    if (curSent) context = `Sentence context: English="${curSent.english}", Vietnamese="${curSent.vietnamese}"`;
+  } else if (state.currentTab === 'vocabulary') {
+    const list = getFilteredVocabList();
+    const curV = list[state.currentVocabIndex];
+    if (curV) context = `Vocab context: Word="${curV.word}", Meaning="${curV.meaning}"`;
+  }
+
+  try {
+    const res = await askAiAssistant(inputVal, context, state.apiKey);
+    const thinkingEl = document.getElementById(thinkingId);
+    if (thinkingEl) thinkingEl.remove();
+
+    if (res && res.answer) {
+      appendAssistantMessage('ai', res.answer);
+    }
+  } catch (err) {
+    const thinkingEl = document.getElementById(thinkingId);
+    if (thinkingEl) thinkingEl.remove();
+    appendAssistantMessage('ai', `⚠️ Không thể phản hồi: ${err.message}`);
+  }
+}
+
+function appendAssistantMessage(role, text, id = null) {
+  if (!elements.assistantMessagesStream) return;
+  const wrap = document.createElement('div');
+  wrap.className = `assistant-msg ${role}`;
+  if (id) wrap.id = id;
+
+  const isAi = role === 'ai';
+  wrap.innerHTML = `
+    <div class="msg-avatar">${isAi ? '💡' : '👤'}</div>
+    <div class="msg-text">${escapeHtml(text)}</div>
+  `;
+  elements.assistantMessagesStream.appendChild(wrap);
+  elements.assistantMessagesStream.scrollTop = elements.assistantMessagesStream.scrollHeight;
+}
 
 // Start App when DOM ready
 document.addEventListener('DOMContentLoaded', initApp);

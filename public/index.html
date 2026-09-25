@@ -231,6 +231,9 @@
         </div>
 
         <div class="vocab-top-actions">
+          <button id="btn-open-story-gen" class="btn btn-outline" style="border-color: var(--accent-cyan); color: var(--accent-cyan);" title="Dùng AI sáng tác mẩu chuyện ngữ cảnh từ các từ vựng SRS">
+            <span>📖 Sáng tác truyện AI</span>
+          </button>
           <button id="btn-open-add-vocab" class="btn btn-primary">
             <span>✨ Thêm từ bằng AI</span>
           </button>
@@ -605,11 +608,25 @@
               </div>
             </div>
 
-            <div class="spotlight-card">
-              <div class="spotlight-title">🎙️ Hướng dẫn phát âm &amp; Shadowing</div>
-              <p class="speaking-text" id="speaking-advice">
-                Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại to rõ ràng 3 lần để rèn phản xạ cơ miệng.
-              </p>
+            <div class="spotlight-card pronunciation-analysis-card" id="pronunciation-analysis-card">
+              <div class="spotlight-title">
+                <span>🎯 Soi Phát Âm &amp; Âm Đuôi (AI Pronunciation Diff)</span>
+                <span class="pronun-score-badge" id="pronun-score-badge">Điểm: --</span>
+              </div>
+              <div class="pronun-chips-container" id="pronun-chips-container">
+                <span class="pronun-tip-init">Hãy bấm micro nói câu tiếng Anh ở trên để hệ thống tự động soi chi tiết từng từ &amp; âm đuôi.</span>
+              </div>
+              <div class="shadowing-controls-wrap">
+                <span class="shadowing-label">🎧 Nhại giọng (Shadowing):</span>
+                <div class="shadowing-rates">
+                  <button class="btn-rate" data-rate="0.8">0.8x</button>
+                  <button class="btn-rate active" data-rate="1.0">1.0x</button>
+                  <button class="btn-rate" data-rate="1.2">1.2x</button>
+                </div>
+                <button class="btn btn-outline btn-sm" id="btn-replay-shadowing" title="Nghe lại câu chuẩn theo tốc độ đã chọn">
+                  <span>🔊 Nghe câu mẫu</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -968,6 +985,107 @@
           <span>✨ Tạo chủ đề với AI</span>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Story Generator Modal -->
+  <div class="modal-overlay" id="story-gen-modal">
+    <div class="modal-card" style="max-width: 800px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📖 Sáng Tác Truyện Ngữ Cảnh Từ Vựng SRS Bằng Gemini AI</span>
+        </div>
+        <button class="btn-icon" id="story-gen-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="story-config-box">
+          <div class="story-words-summary">
+            <span class="summary-label">Từ vựng được đưa vào truyện:</span>
+            <div class="story-words-pills" id="story-target-words-pills">
+              <!-- Selected words rendered by JS -->
+            </div>
+          </div>
+          <div class="story-actions-bar">
+            <button class="btn btn-primary" id="btn-run-story-gen">
+              <span>⚡ Bắt đầu sáng tác truyện</span>
+            </button>
+            <div id="story-gen-status" style="font-size: 0.88rem; font-weight: 600; color: var(--accent-cyan); display: none;">
+              Đang viết câu chuyện kịch tính... ✍️
+            </div>
+          </div>
+        </div>
+
+        <!-- Story Presentation Container -->
+        <div class="story-result-card" id="story-result-card" style="display: none;">
+          <div class="story-card-header">
+            <div>
+              <h3 class="story-title-en" id="story-title-en">The Midnight Deployment</h3>
+              <div class="story-title-vi" id="story-title-vi">Đợt Triển Khai Lúc Nửa Đêm</div>
+            </div>
+            <div class="story-view-controls">
+              <button class="btn btn-secondary btn-sm" id="btn-play-story-audio">
+                <span>🔊 Nghe đọc truyện (US)</span>
+              </button>
+              <button class="btn btn-outline btn-sm" id="btn-toggle-bilingual">
+                <span>🌐 Bật/Tắt tiếng Việt</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="story-content-body">
+            <div class="story-content-en" id="story-content-en"></div>
+            <div class="story-content-vi" id="story-content-vi"></div>
+          </div>
+
+          <!-- Story Comprehension Quiz -->
+          <div class="story-quiz-section" id="story-quiz-section" style="display: none;">
+            <div class="section-title">
+              <span>🎯 Mini Quiz: Kiểm tra độ hiểu bài</span>
+            </div>
+            <div class="story-quiz-list" id="story-quiz-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-story-modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Instant AI Assistant Button & Drawer -->
+  <button id="btn-floating-assistant" class="floating-assistant-btn" title="Hỏi Trợ Lý AI tại chỗ mọi thắc mắc">
+    <span class="btn-ai-icon">💡</span>
+    <span class="btn-ai-text">Hỏi Trợ Lý AI</span>
+  </button>
+
+  <div class="assistant-drawer" id="assistant-drawer">
+    <div class="assistant-header">
+      <div class="assistant-title">
+        <span>💡 Gia Sư AI Ảo (Hỏi Đáp Tại Chỗ)</span>
+      </div>
+      <button class="btn-icon" id="assistant-drawer-close">✕</button>
+    </div>
+
+    <div class="assistant-quick-prompts">
+      <button class="quick-prompt-btn" data-q="Phân biệt 'latency' và 'bottleneck'?">latency vs bottleneck?</button>
+      <button class="quick-prompt-btn" data-q="Cấu trúc 'in terms of' dùng như thế nào?">Cấu trúc 'in terms of'</button>
+      <button class="quick-prompt-btn" data-q="Giải thích cách dùng thì hiện tại hoàn thành?">Thì hiện tại hoàn thành</button>
+    </div>
+
+    <div class="assistant-messages-body" id="assistant-messages-stream">
+      <div class="assistant-msg ai">
+        <div class="msg-avatar">💡</div>
+        <div class="msg-text">
+          Xin chào! Tôi là Trợ lý Gia sư AI. Bạn có thể hỏi bất kỳ câu hỏi nào về ngữ pháp, sắc thái từ vựng tiếng Anh hoặc bôi đen văn bản trên màn hình để tôi giải thích nhé!
+        </div>
+      </div>
+    </div>
+
+    <div class="assistant-input-wrap">
+      <input type="text" id="assistant-input-box" class="form-input" placeholder="Hỏi bất kỳ thắc mắc tiếng Anh nào...">
+      <button id="btn-assistant-submit" class="btn btn-primary">Gửi</button>
     </div>
   </div>
 
