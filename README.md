@@ -1,4 +1,15 @@
-![alt text](image.png)# ⚡ Daily English AI Tutor (Python + FastAPI + Gemini AI)
+---
+title: Daily English AI Tutor
+emoji: 🎓
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+![alt text](image.png)
+# ⚡ Daily English AI Tutor (Python + FastAPI + Gemini AI)
 
 > 🎯 **Ứng dụng luyện giao tiếp tiếng Anh 10 câu/ngày dành riêng cho Kỹ sư AI (AI Engineer) & đời sống hằng ngày.**  
 > Tích hợp phản xạ dịch Việt - Anh, nhận diện giọng nói (Microphone), phát âm bản ngữ US chuẩn Shadowing, và trợ lý chấm điểm / phân tích ngữ pháp chuyên sâu từ Google Gemini.
