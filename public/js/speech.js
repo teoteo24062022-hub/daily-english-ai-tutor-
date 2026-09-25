@@ -104,3 +104,26 @@ export function speakText(text, rate = currentRate) {
 
   window.speechSynthesis.speak(utterance);
 }
+
+export function createVoiceRecognizer({ onResult, onStart, onEnd, onError }) {
+  if (!isSpeechRecognitionSupported()) return null;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SpeechRecognition();
+  rec.lang = 'en-US';
+  rec.continuous = false;
+  rec.interimResults = true;
+  if (onStart) rec.onstart = onStart;
+  if (onEnd) rec.onend = onEnd;
+  if (onError) rec.onerror = (e) => onError(e.error);
+  rec.onresult = (event) => {
+    let text = '';
+    let isFinal = false;
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      text += event.results[i][0].transcript;
+      if (event.results[i].isFinal) isFinal = true;
+    }
+    if (onResult && text) onResult(text, isFinal);
+  };
+  return rec;
+}
+

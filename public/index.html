@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily English AI Tutor - Luyện Giao Tiếp & Kỹ Sư AI</title>
-  <meta name="description" content="Ứng dụng luyện giao tiếp tiếng Anh hằng ngày và chuyên sâu cho Kỹ sư AI với phản xạ dịch, nhận diện giọng nói và chấm điểm chi tiết từ Gemini AI.">
+  <title>Daily English AI Tutor - Lộ Trình 3 Tháng &amp; Kho Từ Vựng SRS</title>
+  <meta name="description" content="Ứng dụng luyện giao tiếp tiếng Anh hằng ngày và chuyên sâu cho Kỹ sư AI với lộ trình 3 tháng từ số 0, Flashcard học từ vựng SRS, phản xạ dịch và chấm điểm từ Gemini AI.">
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/components.css">
 </head>
@@ -36,7 +36,7 @@
           <span>📖</span>
         </button>
 
-        <button id="settings-btn" class="btn-icon" title="Cài đặt Gemini API Key">
+        <button id="settings-btn" class="btn-icon" title="Cài đặt Gemini API Key &amp; Model">
           <span>⚙️</span>
         </button>
 
@@ -47,212 +47,807 @@
     </div>
   </header>
 
-  <!-- Main Content Arena -->
+  <!-- Main App Navigation Tabs -->
+  <nav class="main-tabs-nav container">
+    <button class="nav-tab-btn active" data-tab="roadmap" id="tab-btn-roadmap">
+      <span class="tab-icon">🗺️</span>
+      <span class="tab-label">Lộ Trình B2 (3 Tháng)</span>
+      <span class="tab-badge" id="nav-roadmap-badge">Ngày 1/90 • B2</span>
+    </button>
+
+    <button class="nav-tab-btn" data-tab="vocabulary" id="tab-btn-vocabulary">
+      <span class="tab-icon">🗂️</span>
+      <span class="tab-label">Học Từ Vựng (Flashcard SRS)</span>
+      <span class="tab-badge" id="nav-vocab-badge">31 Từ</span>
+    </button>
+
+    <button class="nav-tab-btn" data-tab="practice" id="tab-btn-practice">
+      <span class="tab-icon">⚡</span>
+      <span class="tab-label">Luyện Phản Xạ Giao Tiếp</span>
+      <span class="tab-badge" id="nav-practice-badge">20 Chủ đề</span>
+    </button>
+
+    <button class="nav-tab-btn" data-tab="roleplay" id="tab-btn-roleplay">
+      <span class="tab-icon">🎭</span>
+      <span class="tab-label">Hội Thoại Nhập Vai (AI Roleplay)</span>
+      <span class="tab-badge" id="nav-roleplay-badge">5 Kịch bản Tech</span>
+    </button>
+  </nav>
+
+  <!-- Main Content Container -->
   <main class="main-content container">
 
-    <!-- Topics Section -->
-    <section class="topic-section">
-      <div class="topic-header">
-        <div class="section-title">
-          <span>📚 20 Chủ đề giao tiếp</span>
+    <!-- ========================================================
+         VIEW 1: 3-MONTH (90-DAY) ROADMAP FOR B2 MASTERY
+         ======================================================== -->
+    <section id="view-roadmap" class="app-view active">
+      
+      <!-- Roadmap Progress & Daily Quests Card -->
+      <div class="roadmap-hero-card">
+        <div class="hero-left">
+          <div class="phase-current-tag" id="hero-phase-tag">🎯 Mục Tiêu B2: Tự Tin Thuyết Trình &amp; Thảo Luận AI Chuyên Nghiệp</div>
+          <h2 class="hero-title" id="hero-title">Lộ Trình 90 Ngày: Bứt Phá Lên B2 Chuyên Nghiệp</h2>
+          <p class="hero-desc">Lộ trình tăng tốc 3 tháng: Nắm chắc nền tảng, phản xạ công việc và tự tin tranh luận, phỏng vấn kiến trúc kỹ thuật AI chuẩn B2.</p>
+          
+          <div class="roadmap-bar-wrap">
+            <div class="roadmap-bar-label">
+              <span>Tiến độ tổng thể:</span>
+              <strong id="roadmap-percent">1%</strong>
+            </div>
+            <div class="roadmap-bar-track">
+              <div class="roadmap-bar-fill" id="roadmap-bar-fill" style="width: 2%;"></div>
+            </div>
+          </div>
         </div>
-        <div class="topic-categories" id="topic-categories">
-          <button class="tab-btn active" data-filter="all">Tất cả (20)</button>
-          <button class="tab-btn" data-filter="tech">Kỹ sư AI 🚀 (5)</button>
-          <button class="tab-btn" data-filter="daily">Đời sống ☕ (15)</button>
+
+        <div class="daily-quests-box">
+          <div class="quests-title">🎯 Nhiệm Vụ Hôm Nay (3 Bước)</div>
+          <ul class="quests-list">
+            <li class="quest-item" id="quest-vocab">
+              <span class="quest-check">○</span>
+              <span class="quest-text">Ôn 10 từ vựng (SRS Flashcard)</span>
+            </li>
+            <li class="quest-item" id="quest-lesson">
+              <span class="quest-check">○</span>
+              <span class="quest-text">Học bài lý thuyết hôm nay</span>
+            </li>
+            <li class="quest-item" id="quest-practice">
+              <span class="quest-check">○</span>
+              <span class="quest-text">Luyện 5 câu phản xạ dịch</span>
+            </li>
+          </ul>
         </div>
-        <button id="btn-generate-more" class="btn-secondary tab-btn" style="border-radius: var(--radius-full); font-size: 0.8rem;">
-          ✨ Tạo thêm câu mới với AI
-        </button>
       </div>
 
-      <!-- Horizontal Scrollable Topic Chips -->
-      <div class="topics-scroll" id="topics-scroll">
+      <!-- Phase Selector Tabs -->
+      <div class="phases-grid" id="phases-grid">
         <!-- Rendered by JS -->
       </div>
-    </section>
 
-    <!-- Core Practice Arena Card -->
-    <section class="practice-card">
-      <div class="card-topbar">
-        <div class="current-topic-badge" id="current-topic-badge">
-          <span>🚀 Daily Standup &amp; Sprint Updates</span>
-        </div>
-        <div class="sentence-counter" id="sentence-counter">
-          Câu 1 / 5
-        </div>
-      </div>
-
-      <!-- Situation Box in Vietnamese -->
-      <div class="situation-box">
-        <div class="situation-label">
-          <span>🇻🇳 Tình huống giao tiếp tiếng Việt:</span>
-        </div>
-        <div class="situation-vietnamese" id="situation-vietnamese">
-          Đang tải tình huống...
-        </div>
-        <div style="margin-top: 0.4rem; font-size: 0.85rem; color: var(--text-muted);" id="situation-context">
-          Ngữ cảnh giao tiếp
-        </div>
-
-        <div class="situation-hint" id="situation-hint-wrap" style="display: none;">
-          <span>💡 Gợi ý từ vựng:</span>
-          <span class="hint-pill" id="situation-hint"></span>
-        </div>
-      </div>
-
-      <!-- Input Zone -->
-      <div class="input-zone">
-        <div class="textarea-wrapper">
-          <textarea
-            id="english-input"
-            class="english-textarea"
-            placeholder="Nhập câu dịch tiếng Anh của bạn hoặc bấm Micro ở góc dưới để luyện nói..."
-            rows="3"
-          ></textarea>
-
-          <button id="mic-btn" class="mic-btn" title="Bấm để nói tiếng Anh qua Micro (Speech-to-Text)">
-            <span>🎙️</span>
-          </button>
-        </div>
-
-        <div class="voice-status-bar" id="voice-status-bar">
-          <div class="soundwave-indicator">
-            <span class="soundwave-bar"></span>
-            <span class="soundwave-bar"></span>
-            <span class="soundwave-bar"></span>
+      <!-- Active Day Lesson Detail Card -->
+      <div class="lesson-card" id="lesson-card">
+        <div class="lesson-header">
+          <div>
+            <div class="lesson-day-badge" id="lesson-day-badge">Ngày 1 / 90</div>
+            <h3 class="lesson-title" id="lesson-title">Đang tải bài học...</h3>
+            <div class="lesson-goal" id="lesson-goal">Mục tiêu: Đang cập nhật...</div>
           </div>
-          <span>Đang lắng nghe bạn nói... (Hãy nói to rõ ràng bằng tiếng Anh)</span>
-        </div>
-      </div>
-
-      <!-- Action Row -->
-      <div class="action-row">
-        <div class="action-left">
-          <button id="btn-toggle-hint" class="btn btn-secondary">
-            <span>💡 Xem gợi ý</span>
-          </button>
-          <button id="btn-skip" class="btn btn-secondary">
-            <span>Bỏ qua ❯</span>
-          </button>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <span class="shortcut-tip">Mẹo: Bấm <strong>Enter</strong> để kiểm tra</span>
-          <button id="btn-check" class="btn btn-primary">
-            <span>Kiểm tra đáp án</span>
-            <span>➔</span>
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- AI Feedback Drawer (Reveals after check) -->
-    <section class="feedback-container" id="feedback-container">
-      <div class="feedback-card">
-
-        <!-- Score Header -->
-        <div class="feedback-header">
-          <div class="score-badge-wrap">
-            <div class="score-circle score-excellent" id="score-circle">
-              95
-            </div>
-            <div>
-              <div class="verdict-title" id="verdict-title">Xuất sắc!</div>
-              <div class="verdict-sub" id="verdict-sub">Câu văn tự nhiên, ngữ pháp chính xác.</div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 0.75rem;">
-            <button id="btn-retry-sentence" class="btn btn-secondary">
-              <span>↺ Luyện lại</span>
+          <div class="lesson-actions">
+            <button id="btn-complete-day" class="btn btn-primary">
+              <span>✓ Hoàn thành ngày này</span>
             </button>
-            <button id="btn-next-sentence" class="btn btn-primary">
-              <span>Sang câu tiếp theo ❯</span>
+            <button id="btn-practice-now" class="btn btn-secondary">
+              <span>⚡ Luyện phản xạ ngay ➔</span>
             </button>
           </div>
         </div>
 
-        <!-- Model Sentence with Native Audio Player -->
-        <div class="model-box">
-          <div class="model-header">
-            <div class="model-title">
-              <span>✨ Câu chuẩn bản ngữ (Native English):</span>
-            </div>
-
-            <!-- Audio Shadowing Controls -->
-            <div class="audio-controls">
-              <div class="speed-selector" title="Tốc độ đọc giọng US">
-                <button class="speed-btn" data-speed="0.8">0.8x</button>
-                <button class="speed-btn active" data-speed="1.0">1.0x</button>
-                <button class="speed-btn" data-speed="1.2">1.2x</button>
-              </div>
-
-              <button id="btn-speak-corrected" class="btn-speak" title="Nghe phát âm chuẩn giọng bản ngữ US">
-                <span>🔊</span>
-              </button>
-            </div>
+        <div class="lesson-body">
+          <div class="lesson-section">
+            <div class="lesson-section-title">💡 Lý thuyết cốt lõi (Dễ hiểu cho người mới):</div>
+            <div class="lesson-theory" id="lesson-theory">Đang tải lý thuyết...</div>
           </div>
 
-          <div class="corrected-text" id="corrected-text">
-            I am currently optimizing the data pipeline to reduce model inference latency.
-          </div>
-        </div>
-
-        <!-- Native Alternative (Idiom / Phrasal verb) -->
-        <div class="native-alt-box">
-          <div class="native-alt-label">🎯 Cách diễn đạt tự nhiên hơn thường dùng của người bản xứ:</div>
-          <div class="native-alt-text" id="native-alt-text">
-            I'm tuning the data pipeline to bring down inference latency.
-          </div>
-        </div>
-
-        <!-- Grammar Errors Breakdown -->
-        <div class="form-group">
-          <div class="section-title">
-            <span>📝 Phân tích ngữ pháp chi tiết:</span>
-          </div>
-          <div class="grammar-breakdown" id="grammar-breakdown">
-            <!-- Rendered by JS -->
-          </div>
-        </div>
-
-        <!-- Spotlight Grid: Vocabulary & Pronunciation -->
-        <div class="spotlight-grid">
-          <div class="spotlight-card">
-            <div class="spotlight-title">💎 Từ vựng &amp; Collocations đáng học</div>
-            <div id="vocab-spotlight">
+          <div class="lesson-section">
+            <div class="lesson-section-title">🔑 Từ vựng trọng tâm trong bài:</div>
+            <div class="core-vocab-chips" id="core-vocab-chips">
               <!-- Rendered by JS -->
             </div>
           </div>
 
-          <div class="spotlight-card">
-            <div class="spotlight-title">🎙️ Hướng dẫn phát âm &amp; Shadowing</div>
-            <p class="speaking-text" id="speaking-advice">
-              Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại to rõ ràng 3 lần để rèn phản xạ cơ miệng.
-            </p>
+          <div class="lesson-section">
+            <div class="lesson-section-title">✨ Mẫu câu chuẩn &amp; Phát âm bản xứ:</div>
+            <div class="sample-sentence-box">
+              <div class="sample-en" id="lesson-sample-sentence">Đang tải mẫu câu...</div>
+              <button id="btn-speak-lesson-sample" class="btn-speak" title="Nghe phát âm chuẩn giọng US">
+                <span>🔊</span>
+              </button>
+            </div>
+            <div class="lesson-tip" id="lesson-practice-tip">💡 Mẹo luyện tập: Đọc to câu trên 3 lần.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive IPA 44-Sound Chart -->
+      <div class="ipa-chart-card">
+        <div class="ipa-header">
+          <div class="ipa-title-wrap">
+            <span class="ipa-icon">🎙️</span>
+            <div>
+              <h3>Bảng 44 Âm Chuẩn Quốc Tế IPA (International Phonetic Alphabet)</h3>
+              <p>Bấm vào bất kỳ âm nào để nghe phát âm chuẩn giọng bản ngữ và từ mẫu tương ứng.</p>
+            </div>
+          </div>
+          <div class="ipa-legend">
+            <span class="legend-pill legend-vowel">Nguyên âm đơn</span>
+            <span class="legend-pill legend-diphthong">Nguyên âm đôi</span>
+            <span class="legend-pill legend-consonant">Phụ âm</span>
           </div>
         </div>
 
-        <!-- Gemini Coach Encouragement -->
-        <div class="encouragement-box">
-          <div class="encouragement-icon">🌟</div>
-          <div class="encouragement-text" id="encouragement-text">
-            Bạn đang làm rất tốt! Kiên trì 10 câu mỗi ngày trong 3 tháng sẽ giúp phản xạ giao tiếp tự nhiên bất ngờ.
+        <div class="ipa-grid-container" id="ipa-grid-container">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="ipa-preview-box" id="ipa-preview-box" style="display: none;">
+          <span class="ipa-current-sound" id="ipa-current-sound">/iː/</span>
+          <span class="ipa-current-word" id="ipa-current-word">see /siː/ (nhìn thấy)</span>
+          <button id="btn-replay-ipa" class="btn-speak" title="Nghe lại âm này"><span>🔊</span></button>
+        </div>
+      </div>
+
+      <!-- Timeline Days Quick Selector -->
+      <div class="days-timeline-section">
+        <div class="section-title">
+          <span>📅 Danh sách 90 Ngày Học (Bấm vào ngày để xem bài):</span>
+        </div>
+        <div class="days-scroll" id="days-scroll">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VIEW 2: VOCABULARY LEARNING & SRS 3D FLASHCARDS
+         ======================================================== -->
+    <section id="view-vocabulary" class="app-view" style="display: none;">
+      
+      <!-- Top Vocabulary Toolbar -->
+      <div class="vocab-toolbar">
+        <div class="vocab-filters">
+          <button class="tab-btn active" data-vfilter="all">Tất cả (<span id="count-all">0</span>)</button>
+          <button class="tab-btn" data-vfilter="a1">🟢 A1 Căn bản (<span id="count-a1">0</span>)</button>
+          <button class="tab-btn" data-vfilter="a2">🔵 A2 Sơ cấp (<span id="count-a2">0</span>)</button>
+          <button class="tab-btn" data-vfilter="b1">🟣 B1 Trung cấp (<span id="count-b1">0</span>)</button>
+          <button class="tab-btn" data-vfilter="b2">💎 B2 Nâng cao (<span id="count-b2">0</span>)</button>
+          <button class="tab-btn" data-vfilter="tech">🚀 Tech &amp; AI (<span id="count-tech">0</span>)</button>
+          <button class="tab-btn" data-vfilter="due">🔔 Cần ôn (<span id="count-due">0</span>)</button>
+          <button class="tab-btn" data-vfilter="mastered">🏆 Đã thuộc (<span id="count-mastered">0</span>)</button>
+        </div>
+
+        <div class="vocab-search-wrap">
+          <input type="text" id="vocab-search-input" class="form-input" placeholder="🔍 Tìm kiếm từ vựng (tiếng Anh hoặc nghĩa Việt)...">
+        </div>
+
+        <div class="vocab-top-actions">
+          <button id="btn-open-add-vocab" class="btn btn-primary">
+            <span>✨ Thêm từ bằng AI</span>
+          </button>
+          <button id="btn-open-vocab-quiz" class="btn btn-secondary">
+            <span>🎮 Luyện Quiz (Trắc nghiệm)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3D Interactive Flashcard Area -->
+      <div class="flashcard-arena">
+        <div class="flashcard-status-bar">
+          <div class="card-count" id="flashcard-counter">Thẻ 1 / 18</div>
+          <div class="srs-status" id="flashcard-srs-status">Giai đoạn: Mới học (Stage 1)</div>
+        </div>
+
+        <!-- The 3D Flip Card Container -->
+        <div class="flashcard-container" id="flashcard-container" title="Bấm vào thẻ để lật mặt sau">
+          <div class="flashcard-inner" id="flashcard-inner">
+            
+            <!-- Front Card Face -->
+            <div class="flashcard-face flashcard-front">
+              <div class="card-badges">
+                <span class="badge-level" id="fc-level">A0-Survival</span>
+                <span class="badge-pos" id="fc-pos">noun</span>
+              </div>
+
+              <div class="card-word-wrap">
+                <h2 class="card-word" id="fc-word">computer</h2>
+                <div class="card-ipa-wrap">
+                  <span class="card-ipa" id="fc-ipa">/kəmˈpjuː.tɚ/</span>
+                  <button id="btn-speak-vocab" class="btn-speak" title="Nghe phát âm chuẩn giọng US">
+                    <span>🔊</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-hint-notice">
+                <span>💡 Gợi ý: Bấm vào thẻ hoặc phím cách (Space) để lật xem nghĩa &amp; ví dụ</span>
+              </div>
+
+              <div class="flip-btn-wrap">
+                <button class="btn btn-outline" id="btn-flip-card">
+                  <span>🔄 Lật thẻ xem nghĩa</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Back Card Face -->
+            <div class="flashcard-face flashcard-back">
+              <div class="card-meaning-wrap">
+                <div class="card-meaning-title">Nghĩa tiếng Việt:</div>
+                <div class="card-meaning" id="fc-meaning">máy vi tính</div>
+              </div>
+
+              <div class="card-example-box">
+                <div class="example-en" id="fc-example-en">I turn on my computer to work every morning.</div>
+                <div class="example-vi" id="fc-example-vi">Tôi bật máy tính lên để làm việc mỗi sáng.</div>
+              </div>
+
+              <div class="card-mnemonic-box" id="fc-mnemonic-box">
+                <span class="mnemonic-icon">🧠</span>
+                <span class="mnemonic-text" id="fc-mnemonic">Compute (tính toán) + er -> Máy tính toán.</span>
+              </div>
+
+              <div class="flip-btn-wrap">
+                <button class="btn btn-outline" id="btn-flip-back">
+                  <span>🔄 Lật lại mặt trước</span>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
+        <!-- Spaced Repetition Rating Action Bar -->
+        <div class="srs-action-bar">
+          <div class="srs-title">Đánh giá mức độ nhớ của bạn:</div>
+          <div class="srs-buttons">
+            <button class="srs-btn srs-again" data-grade="0" title="Chưa nhớ - Ôn lại ngay trong ngày (Phím 1)">
+              <span class="srs-icon">🔴</span>
+              <span class="srs-name">Chưa nhớ</span>
+              <span class="srs-interval">Hôm nay</span>
+            </button>
+            <button class="srs-btn srs-hard" data-grade="1" title="Khó - Ôn lại sau 1 ngày (Phím 2)">
+              <span class="srs-icon">🟠</span>
+              <span class="srs-name">Khó</span>
+              <span class="srs-interval">1 ngày</span>
+            </button>
+            <button class="srs-btn srs-good" data-grade="2" title="Tốt - Ôn lại sau 3 ngày (Phím 3)">
+              <span class="srs-icon">🟡</span>
+              <span class="srs-name">Tốt</span>
+              <span class="srs-interval">3 ngày</span>
+            </button>
+            <button class="srs-btn srs-easy" data-grade="3" title="Dễ/Thuộc - Ôn lại sau 7 ngày (Phím 4)">
+              <span class="srs-icon">🟢</span>
+              <span class="srs-name">Dễ / Thuộc</span>
+              <span class="srs-interval">7 ngày</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Pagination -->
+        <div class="flashcard-nav-controls">
+          <button id="btn-vocab-prev" class="btn btn-secondary">❮ Thẻ trước</button>
+          <span id="vocab-page-indicator">1 / 4016</span>
+          <button id="btn-vocab-random" class="btn btn-outline" title="Đổi ngẫu nhiên một từ trong danh sách">🎲 Ngẫu nhiên</button>
+          <button id="btn-vocab-next" class="btn btn-secondary">Thẻ tiếp ❯</button>
+        </div>
+
+      </div>
+
+      <!-- Quick Vocabulary List Table -->
+      <div class="vocab-table-card">
+        <div class="section-title">
+          <span>📋 Danh sách từ vựng trong kho (<span id="table-total-count">18</span> từ)</span>
+        </div>
+        <div class="vocab-table-wrap">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th>Từ vựng</th>
+                <th>Phiên âm IPA</th>
+                <th>Nghĩa tiếng Việt</th>
+                <th>Cấp độ</th>
+                <th>SRS Stage</th>
+                <th>Ngày ôn tiếp theo</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="vocab-table-body">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="table-pagination">
+          <button id="btn-table-prev" class="btn btn-secondary btn-sm" disabled>❮ Trang trước</button>
+          <span id="table-page-info" class="table-page-info">Trang 1 / 81 (Hiển thị 1 - 50 trong 4,016 từ)</span>
+          <button id="btn-table-next" class="btn btn-secondary btn-sm">Trang sau ❯</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: PRACTICE ARENA (REFLEX TRANSLATION & SCAFFOLDING)
+         ======================================================== -->
+    <section id="view-practice" class="app-view" style="display: none;">
+      
+      <!-- Topics Section -->
+      <div class="topic-section">
+        <div class="topic-header">
+          <div class="section-title">
+            <span>📚 20 Chủ đề giao tiếp</span>
+          </div>
+          <div class="topic-categories" id="topic-categories">
+            <button class="tab-btn active" data-filter="all">Tất cả (20)</button>
+            <button class="tab-btn" data-filter="tech">Kỹ sư AI 🚀 (5)</button>
+            <button class="tab-btn" data-filter="daily">Đời sống ☕ (15)</button>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <button id="btn-create-topic-modal" class="btn-primary tab-btn" style="border-radius: var(--radius-full); font-size: 0.8rem;">
+              ➕ Tạo chủ đề mới
+            </button>
+            <button id="btn-generate-more" class="btn-secondary tab-btn" style="border-radius: var(--radius-full); font-size: 0.8rem;">
+              ✨ Sinh thêm câu
+            </button>
+          </div>
+        </div>
+
+        <!-- Horizontal Scrollable Topic Chips -->
+        <div class="topics-scroll" id="topics-scroll">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Core Practice Arena Card -->
+      <div class="practice-card">
+        
+        <div class="card-topbar">
+          <div class="current-topic-badge" id="current-topic-badge">
+            <span>🚀 Daily Standup &amp; Sprint Updates</span>
+          </div>
+
+          <!-- Beginner Scaffolding Mode Switcher -->
+          <div class="practice-mode-toggle">
+            <button id="btn-mode-scramble" class="mode-pill active" title="Bấm chọn các thẻ từ xáo trộn để tạo câu (Cực kỳ thân thiện cho người mới bắt đầu)">
+              <span>🧩 Ghép thẻ từ</span>
+            </button>
+            <button id="btn-mode-typing" class="mode-pill" title="Tự gõ câu hoặc nói qua Micro kèm phân tích Grammarly">
+              <span>✍️ Gõ tự do</span>
+            </button>
+          </div>
+
+          <div class="sentence-counter" id="sentence-counter">
+            Câu 1 / 5
+          </div>
+        </div>
+
+        <!-- Situation Box in Vietnamese -->
+        <div class="situation-box">
+          <div class="situation-label">
+            <span>🇻🇳 Tình huống giao tiếp tiếng Việt:</span>
+          </div>
+          <div class="situation-vietnamese" id="situation-vietnamese">
+            Đang tải tình huống...
+          </div>
+          <div style="margin-top: 0.4rem; font-size: 0.85rem; color: var(--text-muted);" id="situation-context">
+            Ngữ cảnh giao tiếp
+          </div>
+
+          <div class="situation-hint" id="situation-hint-wrap" style="display: none;">
+            <span>💡 Gợi ý từ vựng:</span>
+            <span class="hint-pill" id="situation-hint"></span>
+          </div>
+        </div>
+
+        <!-- Word Scramble Scaffold Box (For Beginners) -->
+        <div class="scramble-box" id="scramble-box">
+          <div class="scramble-header">
+            <span>🧩 Bấm các thẻ từ vựng bên dưới theo thứ tự để ghép thành câu đúng:</span>
+            <button id="btn-scramble-reset" class="btn-icon-text" title="Xóa câu ghép làm lại">
+              <span>↺ Xóa câu ghép</span>
+            </button>
+          </div>
+          <div class="scramble-chips" id="scramble-chips">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Input Zone -->
+        <div class="input-zone">
+          <div class="textarea-wrapper">
+            <textarea
+              id="english-input"
+              class="english-textarea"
+              placeholder="Nhập câu dịch tiếng Anh của bạn hoặc chọn các thẻ từ ở trên..."
+              rows="3"
+            ></textarea>
+
+            <button id="mic-btn" class="mic-btn" title="Bấm để nói tiếng Anh qua Micro (Speech-to-Text)">
+              <span>🎙️</span>
+            </button>
+          </div>
+
+          <div class="voice-status-bar" id="voice-status-bar">
+            <div class="soundwave-indicator">
+              <span class="soundwave-bar"></span>
+              <span class="soundwave-bar"></span>
+              <span class="soundwave-bar"></span>
+            </div>
+            <span>Đang lắng nghe bạn nói... (Hãy nói to rõ ràng bằng tiếng Anh)</span>
+          </div>
+
+          <!-- Grammarly Real-time Assistant Panel -->
+          <div class="grammarly-bar" id="grammarly-bar" style="display: none;">
+            <div class="grammarly-header">
+              <div class="grammarly-status" id="grammarly-status">
+                <span id="grammarly-status-icon">🟢</span>
+                <span id="grammarly-status-text">Đang phân tích ngữ pháp...</span>
+              </div>
+              <div class="grammarly-metrics" id="grammarly-metrics">
+                <span class="metric-pill metric-correctness" title="Độ chuẩn xác ngữ pháp">🎯 Đúng: <strong id="m-correctness">--</strong></span>
+                <span class="metric-pill metric-clarity" title="Độ rõ ràng">💡 Rõ ràng: <strong id="m-clarity">--</strong></span>
+                <span class="metric-pill metric-engagement" title="Dùng từ vựng hay">💎 Từ vựng: <strong id="m-engagement">--</strong></span>
+                <span class="metric-pill metric-delivery" title="Phong thái giao tiếp">👔 Giọng điệu: <strong id="m-delivery">--</strong></span>
+              </div>
+            </div>
+            <div class="suggestions-container" id="suggestions-container">
+              <!-- Inline suggestions cards rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Row -->
+        <div class="action-row">
+          <div class="action-left">
+            <button id="btn-toggle-hint" class="btn btn-secondary">
+              <span>💡 Xem gợi ý</span>
+            </button>
+            <button id="btn-skip" class="btn btn-secondary">
+              <span>Bỏ qua ❯</span>
+            </button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <span class="shortcut-tip">Mẹo: Bấm <strong>Enter</strong> để kiểm tra</span>
+            <button id="btn-check" class="btn btn-primary">
+              <span>Kiểm tra đáp án</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Feedback Drawer (Reveals after check) -->
+      <div class="feedback-container" id="feedback-container">
+        <div class="feedback-card">
+
+          <!-- Score Header -->
+          <div class="feedback-header">
+            <div class="score-badge-wrap">
+              <div class="score-circle score-excellent" id="score-circle">
+                95
+              </div>
+              <div>
+                <div class="verdict-title" id="verdict-title">Xuất sắc!</div>
+                <div class="verdict-sub" id="verdict-sub">Câu văn tự nhiên, ngữ pháp chính xác.</div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <button id="btn-retry-sentence" class="btn btn-secondary">
+                <span>↺ Luyện lại</span>
+              </button>
+              <button id="btn-next-sentence" class="btn btn-primary">
+                <span>Sang câu tiếp theo ❯</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Model Sentence with Native Audio Player -->
+          <div class="model-box">
+            <div class="model-header">
+              <div class="model-title">
+                <span>✨ Câu chuẩn bản ngữ (Native English):</span>
+              </div>
+
+              <!-- Audio Shadowing Controls -->
+              <div class="audio-controls">
+                <div class="speed-selector" title="Tốc độ đọc giọng US">
+                  <button class="speed-btn" data-speed="0.8">0.8x</button>
+                  <button class="speed-btn active" data-speed="1.0">1.0x</button>
+                  <button class="speed-btn" data-speed="1.2">1.2x</button>
+                </div>
+
+                <button id="btn-speak-corrected" class="btn-speak" title="Nghe phát âm chuẩn giọng bản ngữ US">
+                  <span>🔊</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="corrected-text" id="corrected-text">
+              I am currently optimizing the data pipeline to reduce model inference latency.
+            </div>
+          </div>
+
+          <!-- Native Alternative (Idiom / Phrasal verb) -->
+          <div class="native-alt-box">
+            <div class="native-alt-label">🎯 Cách diễn đạt tự nhiên hơn thường dùng của người bản xứ:</div>
+            <div class="native-alt-text" id="native-alt-text">
+              I'm tuning the data pipeline to bring down inference latency.
+            </div>
+          </div>
+
+          <!-- Grammar Errors Breakdown -->
+          <div class="form-group">
+            <div class="section-title">
+              <span>📝 Phân tích ngữ pháp chi tiết:</span>
+            </div>
+            <div class="grammar-breakdown" id="grammar-breakdown">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Spotlight Grid: Vocabulary & Pronunciation -->
+          <div class="spotlight-grid">
+            <div class="spotlight-card">
+              <div class="spotlight-title">💎 Từ vựng &amp; Collocations đáng học</div>
+              <div id="vocab-spotlight">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+            <div class="spotlight-card">
+              <div class="spotlight-title">🎙️ Hướng dẫn phát âm &amp; Shadowing</div>
+              <p class="speaking-text" id="speaking-advice">
+                Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại to rõ ràng 3 lần để rèn phản xạ cơ miệng.
+              </p>
+            </div>
+          </div>
+
+          <!-- Gemini Coach Encouragement -->
+          <div class="encouragement-box">
+            <div class="encouragement-icon">🌟</div>
+            <div class="encouragement-text" id="encouragement-text">
+              Bạn đang làm rất tốt! Kiên trì 10 câu mỗi ngày trong 3 tháng sẽ giúp phản xạ giao tiếp tự nhiên bất ngờ.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: AI VOICE ROLEPLAY ARENA (TECH & AI SCENARIOS)
+         ======================================================== -->
+    <section id="view-roleplay" class="app-view" style="display: none;">
+      <!-- Roleplay Top Bar -->
+      <div class="roleplay-top-bar">
+        <div class="roleplay-header-info">
+          <h2 class="view-title">🎭 Phòng Đàm Thoại Nhập Vai (AI Voice Roleplay Arena)</h2>
+          <p class="view-subtitle">Luyện phản xạ giao tiếp 1-1 với AI chuyên ngành Công nghệ thông tin &amp; AI Engineer bằng giọng nói trực tiếp.</p>
+        </div>
+        <div class="roleplay-scenario-selector">
+          <label for="roleplay-scenario-select" class="form-label" style="margin-bottom: 0.25rem;">Chọn kịch bản:</label>
+          <select id="roleplay-scenario-select" class="form-select">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Scenario Banner -->
+      <div class="active-scenario-card" id="active-scenario-card">
+        <div class="scenario-icon-large" id="sc-card-icon">💼</div>
+        <div class="scenario-details">
+          <div class="scenario-badge-wrap">
+            <span class="badge-roleplay" id="sc-card-badge">Tuyển Dụng &amp; Phỏng Vấn</span>
+            <span class="ai-role-tag" id="sc-card-role">Alex - Lead AI Scientist</span>
+          </div>
+          <h3 class="scenario-title" id="sc-card-title">Phỏng Vấn AI/Tech Engineer</h3>
+          <p class="scenario-desc" id="sc-card-desc">Thực hành trả lời các câu hỏi kỹ thuật về Machine Learning, LLM, RAG pipeline, và giải quyết bài toán latency.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Conversation Stream Container -->
+      <div class="roleplay-chat-container">
+        <div class="chat-messages-stream" id="roleplay-messages-stream">
+          <!-- Chat bubbles rendered by JS -->
+        </div>
+
+        <!-- Chat Input Action Bar -->
+        <div class="roleplay-input-bar">
+          <button id="btn-roleplay-voice" class="btn-voice-toggle" title="Nhấn để nói tiếng Anh (hoặc bấm lại để gửi)">
+            <span class="mic-icon">🎙️</span>
+            <span class="mic-label">Bấm để nói</span>
+          </button>
+          <input type="text" id="roleplay-text-input" class="form-input" placeholder="Gõ câu trả lời hoặc nhấn biểu tượng micro để nói...">
+          <button id="btn-roleplay-send" class="btn btn-primary">
+            <span>Gửi ❯</span>
+          </button>
+          <button id="btn-roleplay-finish" class="btn btn-outline" style="border-color: var(--accent-emerald); color: var(--accent-emerald);">
+            <span>📊 Kết thúc &amp; Xem báo cáo</span>
+          </button>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Settings Modal (Gemini API Key) -->
+  <!-- ========================================================
+       MODALS
+       ======================================================== -->
+
+  <!-- Add Custom Word With AI Modal -->
+  <div class="modal-overlay" id="add-vocab-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>✨ Tra cứu &amp; Thêm từ vựng bằng Gemini AI</span>
+        </div>
+        <button class="btn-icon" id="add-vocab-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-word">Từ tiếng Anh muốn thêm:</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="input-vocab-word" class="form-input" placeholder="Ví dụ: latency, benchmark, feature...">
+            <button id="btn-ai-analyze-word" class="btn btn-primary" style="white-space: nowrap;">
+              <span>⚡ AI Phân tích</span>
+            </button>
+          </div>
+          <div id="ai-vocab-status" style="font-size: 0.85rem; font-weight: 600; margin-top: 0.4rem; display: none;"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-ipa">Phiên âm IPA:</label>
+          <input type="text" id="input-vocab-ipa" class="form-input" placeholder="/ˈleɪ.tən.si/">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-meaning">Nghĩa tiếng Việt:</label>
+          <input type="text" id="input-vocab-meaning" class="form-input" placeholder="Độ trễ thời gian phản hồi...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-example-en">Câu ví dụ tiếng Anh:</label>
+          <input type="text" id="input-vocab-example-en" class="form-input" placeholder="We need to reduce model latency.">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-example-vi">Dịch câu ví dụ sang tiếng Việt:</label>
+          <input type="text" id="input-vocab-example-vi" class="form-input" placeholder="Chúng ta cần giảm độ trễ của mô hình.">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-vocab-mnemonic">Mẹo nhớ nhanh (Mnemonic):</label>
+          <input type="text" id="input-vocab-mnemonic" class="form-input" placeholder="Gốc từ 'late' nghĩa là muộn...">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="add-vocab-cancel">Hủy</button>
+        <button class="btn btn-primary" id="btn-save-custom-word">
+          <span>💾 Lưu vào kho từ vựng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vocabulary Quiz Modal -->
+  <div class="modal-overlay" id="vocab-quiz-modal">
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🎮 Luyện Quiz Từ Vựng Nhanh</span>
+        </div>
+        <button class="btn-icon" id="vocab-quiz-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="quiz-score-bar">
+          <span id="quiz-question-counter">Câu 1 / 5</span>
+          <span class="quiz-score-pill" id="quiz-score-pill">Điểm: 0</span>
+        </div>
+
+        <div class="quiz-question-box">
+          <div class="quiz-sublabel">Chọn nghĩa tiếng Việt đúng cho từ:</div>
+          <div class="quiz-word" id="quiz-target-word">latency</div>
+          <div class="quiz-ipa" id="quiz-target-ipa">/ˈleɪ.tən.si/</div>
+        </div>
+
+        <div class="quiz-options-grid" id="quiz-options-grid">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="quiz-feedback-box" id="quiz-feedback-box" style="display: none;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-quiz">Đóng</button>
+        <button class="btn btn-primary" id="btn-next-quiz" style="display: none;">Câu tiếp theo ❯</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roleplay Debrief Modal -->
+  <div class="modal-overlay" id="roleplay-debrief-modal">
+    <div class="modal-card" style="max-width: 750px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📊 Báo Cáo Đánh Giá Buổi Hội Thoại AI (Debriefing)</span>
+        </div>
+        <button class="btn-icon" id="roleplay-debrief-close">✕</button>
+      </div>
+
+      <div class="modal-body" id="debrief-modal-body">
+        <div class="debrief-summary-card">
+          <div class="debrief-score-badge">
+            <span class="score-number" id="debrief-score">85</span>
+            <span class="score-sub">/ 100</span>
+          </div>
+          <div class="debrief-level-wrap">
+            <div class="debrief-level-pill" id="debrief-level">B1 - Intermediate</div>
+            <div class="debrief-summary-text" id="debrief-summary">Bạn đã thể hiện phản xạ giao tiếp rất tốt, diễn đạt rõ ràng các ý tưởng kỹ thuật.</div>
+          </div>
+        </div>
+
+        <!-- Grammar Corrections Section -->
+        <div class="debrief-section">
+          <div class="debrief-section-title">
+            <span>🛠️ Các điểm ngữ pháp &amp; từ vựng cần lưu ý:</span>
+          </div>
+          <div class="debrief-corrections-list" id="debrief-corrections-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Native Upgrades Section -->
+        <div class="debrief-section">
+          <div class="debrief-section-title">
+            <span>🚀 Nâng cấp diễn đạt tự nhiên chuẩn Senior Engineer (Native Upgrades):</span>
+          </div>
+          <div class="debrief-upgrades-list" id="debrief-upgrades-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Tech Terms Used Section -->
+        <div class="debrief-section">
+          <div class="debrief-section-title">
+            <span>💡 Thuật ngữ công nghệ đã vận dụng:</span>
+          </div>
+          <div class="tech-tags-wrap" id="debrief-tech-tags">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-debrief">Đóng</button>
+        <button class="btn btn-primary" id="btn-restart-roleplay">
+          <span>🔄 Luyện lại kịch bản này</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Settings Modal (Gemini API Key & Model) -->
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title">
-          <span>⚙️ Cài đặt Gemini API Key</span>
+          <span>⚙️ Cài đặt Gemini API Key &amp; Model</span>
         </div>
         <button class="btn-icon" id="settings-close">✕</button>
       </div>
@@ -271,6 +866,18 @@
             👉 Chưa có key? Lấy miễn phí tại: <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio (aistudio.google.com)</a>
           </p>
           <div id="api-status-notice" style="font-size: 0.85rem; font-weight: 600; margin-top: 0.4rem;"></div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label" for="model-select">Mô hình AI (Gemini Model):</label>
+          <select id="model-select" class="form-input" style="cursor: pointer;">
+            <option value="gemini-3.8-flash" selected>gemini-3.8-flash (Mặc định - Bản mới nhất)</option>
+            <option value="gemini-2.0-flash">gemini-2.0-flash (Tốc độ cao - Ít quá tải)</option>
+            <option value="gemini-1.5-flash">gemini-1.5-flash (Dự phòng ổn định)</option>
+          </select>
+          <p class="form-help">
+            💡 Hệ thống đã tích hợp <strong>Tự động chuyển tiếp (Auto-Failover)</strong>: khi Google gặp lỗi 503 (quá tải), hệ thống sẽ tự động thử lại và chuyển sang model phụ để bạn không bị ngắt quãng!
+          </p>
         </div>
       </div>
 
@@ -307,8 +914,58 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-secondary" onclick="document.getElementById('mistakes-modal').classList.remove('active')">
+        <button class="btn btn-secondary" id="mistakes-footer-close">
           <span>Đóng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Topic Modal -->
+  <div class="modal-overlay" id="create-topic-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>➕ Tạo chủ đề học mới với Gemini AI</span>
+        </div>
+        <button class="btn-icon" id="create-topic-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-topic-name">Tên chủ đề tiếng Anh bạn muốn học:</label>
+          <input
+            type="text"
+            id="new-topic-name"
+            class="form-input"
+            placeholder="Ví dụ: Phỏng vấn AI Engineer, Tối ưu hóa LLMs, Đi du lịch..."
+          >
+          <p class="form-help">
+            Gemini sẽ tự động khởi tạo emoji, phân loại, mô tả và 10 câu tình huống thực tế kèm gợi ý.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phân loại chủ đề:</label>
+          <div class="category-radio-group">
+            <label class="category-radio-label">
+              <input type="radio" name="topic-category" value="tech" checked>
+              <span>🚀 Kỹ sư AI &amp; Tech</span>
+            </label>
+            <label class="category-radio-label">
+              <input type="radio" name="topic-category" value="daily">
+              <span>☕ Đời sống &amp; Giao tiếp</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="create-topic-status" style="font-size: 0.85rem; font-weight: 600; margin-top: 0.5rem; display: none;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="create-topic-cancel">Hủy</button>
+        <button class="btn btn-primary" id="btn-submit-create-topic">
+          <span>✨ Tạo chủ đề với AI</span>
         </button>
       </div>
     </div>
