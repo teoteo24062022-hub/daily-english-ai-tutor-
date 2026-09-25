@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily English AI Tutor - Luyện Giao Tiếp & Kỹ Sư AI</title>
+  <meta name="description" content="Ứng dụng luyện giao tiếp tiếng Anh hằng ngày và chuyên sâu cho Kỹ sư AI với phản xạ dịch, nhận diện giọng nói và chấm điểm chi tiết từ Gemini AI.">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <h1>Daily English AI Tutor</h1>
+          <span class="brand-badge">AI Engineer &amp; Daily Life</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="stat-pill stat-streak" title="Chuỗi ngày học liên tục">
+          <span>🔥</span>
+          <span id="streak-count">0 Ngày</span>
+        </div>
+
+        <div class="stat-pill stat-daily" title="Mục tiêu hôm nay: 10 câu">
+          <span>🎯</span>
+          <span id="daily-progress-count">0/10 Câu</span>
+        </div>
+
+        <button id="mistakes-btn" class="btn-icon" title="Sổ tay lỗi sai &amp; ôn tập">
+          <span>📖</span>
+        </button>
+
+        <button id="settings-btn" class="btn-icon" title="Cài đặt Gemini API Key">
+          <span>⚙️</span>
+        </button>
+
+        <button id="theme-toggle" class="btn-icon" title="Chuyển chế độ Sáng / Tối">
+          <span>🌓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Arena -->
+  <main class="main-content container">
+
+    <!-- Topics Section -->
+    <section class="topic-section">
+      <div class="topic-header">
+        <div class="section-title">
+          <span>📚 20 Chủ đề giao tiếp</span>
+        </div>
+        <div class="topic-categories" id="topic-categories">
+          <button class="tab-btn active" data-filter="all">Tất cả (20)</button>
+          <button class="tab-btn" data-filter="tech">Kỹ sư AI 🚀 (5)</button>
+          <button class="tab-btn" data-filter="daily">Đời sống ☕ (15)</button>
+        </div>
+        <button id="btn-generate-more" class="btn-secondary tab-btn" style="border-radius: var(--radius-full); font-size: 0.8rem;">
+          ✨ Tạo thêm câu mới với AI
+        </button>
+      </div>
+
+      <!-- Horizontal Scrollable Topic Chips -->
+      <div class="topics-scroll" id="topics-scroll">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Core Practice Arena Card -->
+    <section class="practice-card">
+      <div class="card-topbar">
+        <div class="current-topic-badge" id="current-topic-badge">
+          <span>🚀 Daily Standup &amp; Sprint Updates</span>
+        </div>
+        <div class="sentence-counter" id="sentence-counter">
+          Câu 1 / 5
+        </div>
+      </div>
+
+      <!-- Situation Box in Vietnamese -->
+      <div class="situation-box">
+        <div class="situation-label">
+          <span>🇻🇳 Tình huống giao tiếp tiếng Việt:</span>
+        </div>
+        <div class="situation-vietnamese" id="situation-vietnamese">
+          Đang tải tình huống...
+        </div>
+        <div style="margin-top: 0.4rem; font-size: 0.85rem; color: var(--text-muted);" id="situation-context">
+          Ngữ cảnh giao tiếp
+        </div>
+
+        <div class="situation-hint" id="situation-hint-wrap" style="display: none;">
+          <span>💡 Gợi ý từ vựng:</span>
+          <span class="hint-pill" id="situation-hint"></span>
+        </div>
+      </div>
+
+      <!-- Input Zone -->
+      <div class="input-zone">
+        <div class="textarea-wrapper">
+          <textarea
+            id="english-input"
+            class="english-textarea"
+            placeholder="Nhập câu dịch tiếng Anh của bạn hoặc bấm Micro ở góc dưới để luyện nói..."
+            rows="3"
+          ></textarea>
+
+          <button id="mic-btn" class="mic-btn" title="Bấm để nói tiếng Anh qua Micro (Speech-to-Text)">
+            <span>🎙️</span>
+          </button>
+        </div>
+
+        <div class="voice-status-bar" id="voice-status-bar">
+          <div class="soundwave-indicator">
+            <span class="soundwave-bar"></span>
+            <span class="soundwave-bar"></span>
+            <span class="soundwave-bar"></span>
+          </div>
+          <span>Đang lắng nghe bạn nói... (Hãy nói to rõ ràng bằng tiếng Anh)</span>
+        </div>
+      </div>
+
+      <!-- Action Row -->
+      <div class="action-row">
+        <div class="action-left">
+          <button id="btn-toggle-hint" class="btn btn-secondary">
+            <span>💡 Xem gợi ý</span>
+          </button>
+          <button id="btn-skip" class="btn btn-secondary">
+            <span>Bỏ qua ❯</span>
+          </button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <span class="shortcut-tip">Mẹo: Bấm <strong>Enter</strong> để kiểm tra</span>
+          <button id="btn-check" class="btn btn-primary">
+            <span>Kiểm tra đáp án</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Feedback Drawer (Reveals after check) -->
+    <section class="feedback-container" id="feedback-container">
+      <div class="feedback-card">
+
+        <!-- Score Header -->
+        <div class="feedback-header">
+          <div class="score-badge-wrap">
+            <div class="score-circle score-excellent" id="score-circle">
+              95
+            </div>
+            <div>
+              <div class="verdict-title" id="verdict-title">Xuất sắc!</div>
+              <div class="verdict-sub" id="verdict-sub">Câu văn tự nhiên, ngữ pháp chính xác.</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <button id="btn-retry-sentence" class="btn btn-secondary">
+              <span>↺ Luyện lại</span>
+            </button>
+            <button id="btn-next-sentence" class="btn btn-primary">
+              <span>Sang câu tiếp theo ❯</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Model Sentence with Native Audio Player -->
+        <div class="model-box">
+          <div class="model-header">
+            <div class="model-title">
+              <span>✨ Câu chuẩn bản ngữ (Native English):</span>
+            </div>
+
+            <!-- Audio Shadowing Controls -->
+            <div class="audio-controls">
+              <div class="speed-selector" title="Tốc độ đọc giọng US">
+                <button class="speed-btn" data-speed="0.8">0.8x</button>
+                <button class="speed-btn active" data-speed="1.0">1.0x</button>
+                <button class="speed-btn" data-speed="1.2">1.2x</button>
+              </div>
+
+              <button id="btn-speak-corrected" class="btn-speak" title="Nghe phát âm chuẩn giọng bản ngữ US">
+                <span>🔊</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="corrected-text" id="corrected-text">
+            I am currently optimizing the data pipeline to reduce model inference latency.
+          </div>
+        </div>
+
+        <!-- Native Alternative (Idiom / Phrasal verb) -->
+        <div class="native-alt-box">
+          <div class="native-alt-label">🎯 Cách diễn đạt tự nhiên hơn thường dùng của người bản xứ:</div>
+          <div class="native-alt-text" id="native-alt-text">
+            I'm tuning the data pipeline to bring down inference latency.
+          </div>
+        </div>
+
+        <!-- Grammar Errors Breakdown -->
+        <div class="form-group">
+          <div class="section-title">
+            <span>📝 Phân tích ngữ pháp chi tiết:</span>
+          </div>
+          <div class="grammar-breakdown" id="grammar-breakdown">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Spotlight Grid: Vocabulary & Pronunciation -->
+        <div class="spotlight-grid">
+          <div class="spotlight-card">
+            <div class="spotlight-title">💎 Từ vựng &amp; Collocations đáng học</div>
+            <div id="vocab-spotlight">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <div class="spotlight-card">
+            <div class="spotlight-title">🎙️ Hướng dẫn phát âm &amp; Shadowing</div>
+            <p class="speaking-text" id="speaking-advice">
+              Bấm nút Loa ở trên để nghe phát âm, sau đó đọc nhại lại to rõ ràng 3 lần để rèn phản xạ cơ miệng.
+            </p>
+          </div>
+        </div>
+
+        <!-- Gemini Coach Encouragement -->
+        <div class="encouragement-box">
+          <div class="encouragement-icon">🌟</div>
+          <div class="encouragement-text" id="encouragement-text">
+            Bạn đang làm rất tốt! Kiên trì 10 câu mỗi ngày trong 3 tháng sẽ giúp phản xạ giao tiếp tự nhiên bất ngờ.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal (Gemini API Key) -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️ Cài đặt Gemini API Key</span>
+        </div>
+        <button class="btn-icon" id="settings-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="api-key-input">Google Gemini API Key:</label>
+          <input
+            type="password"
+            id="api-key-input"
+            class="form-input"
+            placeholder="AIzaSy..."
+          >
+          <p class="form-help">
+            Key được lưu an toàn trong trình duyệt hoặc bạn có thể lưu trực tiếp trong file <code>.env</code> ở thư mục dự án.<br>
+            👉 Chưa có key? Lấy miễn phí tại: <a href="https://aistudio.google.com/" target="_blank" rel="noopener">Google AI Studio (aistudio.google.com)</a>
+          </p>
+          <div id="api-status-notice" style="font-size: 0.85rem; font-weight: 600; margin-top: 0.4rem;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="settings-save">
+          <span>Lưu cấu hình</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mistakes Notebook Modal -->
+  <div class="modal-overlay" id="mistakes-modal">
+    <div class="modal-card" style="max-width: 720px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📖 Sổ tay lỗi sai &amp; Ôn tập</span>
+        </div>
+        <button class="btn-icon" id="mistakes-close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          Gom tất cả các câu bạn đã làm chưa đúng hoặc điểm dưới 75 để bạn xem lại và luyện tập lại.
+        </p>
+
+        <div id="mistakes-empty" style="text-align: center; padding: 2rem; color: var(--text-muted); display: none;">
+          🎉 Tuyệt vời! Bạn chưa có câu nào bị lỗi trong sổ tay.
+        </div>
+
+        <div class="mistakes-list" id="mistakes-list">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('mistakes-modal').classList.remove('active')">
+          <span>Đóng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

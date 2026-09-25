@@ -1,0 +1,782 @@
+[
+  {
+    "id": "ai-standup",
+    "name": "Daily Standup & Sprint Updates",
+    "icon": "🚀",
+    "category": "tech",
+    "description": "Báo cáo tiến độ hằng ngày, cập nhật sprint, task hoàn thành và blockers",
+    "sentences": [
+      {
+        "id": "ai-standup-1",
+        "vietnamese": "Hôm qua tôi đã hoàn thành việc huấn luyện mô hình phân loại văn bản, độ chính xác đạt 92%.",
+        "context": "Daily standup report - completed task",
+        "hint": "train the text classification model, accuracy reached..."
+      },
+      {
+        "id": "ai-standup-2",
+        "vietnamese": "Hôm nay tôi dự định tối ưu hóa pipeline dữ liệu để giảm độ trễ suy luận.",
+        "context": "Daily standup report - today's plan",
+        "hint": "optimize the data pipeline, reduce inference latency..."
+      },
+      {
+        "id": "ai-standup-3",
+        "vietnamese": "Tôi đang bị nghẽn ở bước cấu hình GPU trên cụm server staging.",
+        "context": "Daily standup report - blocker",
+        "hint": "blocked on configuring GPU on the staging cluster..."
+      },
+      {
+        "id": "ai-standup-4",
+        "vietnamese": "Tôi vừa tạo một Pull Request cho tính năng trích xuất vector embeddings mới, nhờ mọi người review giúp nhé.",
+        "context": "Daily standup report - PR request",
+        "hint": "opened a pull request for the new vector embeddings feature..."
+      },
+      {
+        "id": "ai-standup-5",
+        "vietnamese": "Task này mất nhiều thời gian hơn dự kiến vì dữ liệu huấn luyện chứa khá nhiều nhiễu.",
+        "context": "Daily standup report - delay reason",
+        "hint": "took longer than expected because the training data has a lot of noise..."
+      }
+    ]
+  },
+  {
+    "id": "ai-models",
+    "name": "Explaining AI Models & Pipelines",
+    "icon": "🧠",
+    "category": "tech",
+    "description": "Giải thích kiến trúc RAG, LLM, fine-tuning, latency cho sếp, PM và đối tác",
+    "sentences": [
+      {
+        "id": "ai-models-1",
+        "vietnamese": "Chúng tôi áp dụng kỹ thuật RAG để mô hình có thể truy xuất dữ liệu nội bộ một cách chính xác mà không bị ảo giác.",
+        "context": "Explaining architecture to stakeholders",
+        "hint": "implement RAG to retrieve internal data accurately without hallucinations..."
+      },
+      {
+        "id": "ai-models-2",
+        "vietnamese": "Để tăng tốc độ phản hồi, chúng tôi dùng mô hình lượng tử hóa (quantized model) 8-bit.",
+        "context": "Explaining optimization",
+        "hint": "use an 8-bit quantized model to speed up response time..."
+      },
+      {
+        "id": "ai-models-3",
+        "vietnamese": "Vector database giúp chúng ta tìm kiếm tài liệu tương đồng ngữ nghĩa trong vài mili giây.",
+        "context": "Explaining component",
+        "hint": "vector database allows us to perform semantic similarity search in milliseconds..."
+      },
+      {
+        "id": "ai-models-4",
+        "vietnamese": "Nếu chúng ta fine-tune mô hình với bộ dữ liệu này, chi phí tính toán sẽ cao hơn đáng kể.",
+        "context": "Discussing trade-offs",
+        "hint": "if we fine-tune the model with this dataset, computational cost will be significantly higher..."
+      },
+      {
+        "id": "ai-models-5",
+        "vietnamese": "Hệ thống hiện tại có thể xử lý khoảng 500 yêu cầu đồng thời với độ trễ dưới 200 mili giây.",
+        "context": "Performance metrics",
+        "hint": "handle around 500 concurrent requests with latency under 200ms..."
+      }
+    ]
+  },
+  {
+    "id": "ai-debugging",
+    "name": "Debugging & Production Incidents",
+    "icon": "🐛",
+    "category": "tech",
+    "description": "Báo cáo lỗi bộ nhớ GPU (OOM), sập server, nghẽn mạng và xử lý sự cố khẩn cấp",
+    "sentences": [
+      {
+        "id": "ai-debugging-1",
+        "vietnamese": "Tiến trình huấn luyện vừa bị dừng đột ngột do lỗi tràn bộ nhớ CUDA (Out Of Memory).",
+        "context": "Incident report",
+        "hint": "training process crashed due to a CUDA out-of-memory error..."
+      },
+      {
+        "id": "ai-debugging-2",
+        "vietnamese": "Chúng ta cần giảm kích thước batch size hoặc bật gradient accumulation để khắc phục lỗi này.",
+        "context": "Proposed fix",
+        "hint": "need to decrease the batch size or enable gradient accumulation..."
+      },
+      {
+        "id": "ai-debugging-3",
+        "vietnamese": "API của OpenAI vừa trả về mã lỗi 429 vì chúng ta chạm giới hạn rate limit.",
+        "context": "External dependency issue",
+        "hint": "API returned error code 429 because we hit the rate limit..."
+      },
+      {
+        "id": "ai-debugging-4",
+        "vietnamese": "Tôi đang kiểm tra file log trên CloudWatch để xác định nguyên nhân gây rò rỉ bộ nhớ.",
+        "context": "Investigation in progress",
+        "hint": "checking the logs on CloudWatch to pinpoint the root cause of the memory leak..."
+      },
+      {
+        "id": "ai-debugging-5",
+        "vietnamese": "Sự cố đã được khắc phục sau khi rollback về phiên bản trước đó 10 phút.",
+        "context": "Resolution confirmation",
+        "hint": "the incident has been resolved after rolling back to the previous deployment..."
+      }
+    ]
+  },
+  {
+    "id": "ai-code-review",
+    "name": "Code Review & Technical Feedback",
+    "icon": "🔍",
+    "category": "tech",
+    "description": "Nhận xét Pull Request, đề xuất tái cấu trúc, thảo luận clean code và test",
+    "sentences": [
+      {
+        "id": "ai-code-review-1",
+        "vietnamese": "Đoạn code này xử lý tốt, nhưng bạn nên thêm khối try-catch để bắt ngoại lệ khi gọi API.",
+        "context": "PR comment - error handling",
+        "hint": "looks solid, but you should add a try-catch block to handle API exceptions..."
+      },
+      {
+        "id": "ai-code-review-2",
+        "vietnamese": "Liệu chúng ta có thể chuyển vòng lặp này thành xử lý bất đồng bộ (async/await) để cải thiện hiệu năng không?",
+        "context": "PR comment - performance suggestion",
+        "hint": "could we convert this loop into an asynchronous call to improve performance?..."
+      },
+      {
+        "id": "ai-code-review-3",
+        "vietnamese": "Tôi đề xuất tách hàm này thành hai hàm nhỏ hơn để code dễ kiểm thử hơn.",
+        "context": "PR comment - refactoring",
+        "hint": "I suggest splitting this function into two smaller ones to make it easier to test..."
+      },
+      {
+        "id": "ai-code-review-4",
+        "vietnamese": "Bạn vui lòng viết thêm unit test cho trường hợp dữ liệu đầu vào bị null nhé.",
+        "context": "PR comment - test coverage",
+        "hint": "please add a unit test for the edge case where the input is null..."
+      },
+      {
+        "id": "ai-code-review-5",
+        "vietnamese": "Tôi đã cập nhật code theo gợi ý của bạn và đã push commit mới lên nhánh rồi.",
+        "context": "PR reply - resolving feedback",
+        "hint": "I have addressed your feedback and pushed the new commits to the branch..."
+      }
+    ]
+  },
+  {
+    "id": "ai-meetings",
+    "name": "Technical Meetings & Q&A",
+    "icon": "💬",
+    "category": "tech",
+    "description": "Thảo luận trade-off kiến trúc, hỏi lại khi chưa rõ, bảo vệ quan điểm kỹ thuật",
+    "sentences": [
+      {
+        "id": "ai-meetings-1",
+        "vietnamese": "Xin lỗi, đường truyền mạng của tôi vừa bị gián đoạn, bạn có thể nhắc lại câu hỏi vừa rồi được không?",
+        "context": "Meeting audio check",
+        "hint": "sorry, my internet cut out for a second, could you please repeat that question?..."
+      },
+      {
+        "id": "ai-meetings-2",
+        "vietnamese": "Từ góc độ kỹ thuật, tôi khuyên nên ưu tiên giải pháp có độ trễ thấp thay vì cố tăng độ chính xác thêm 1%.",
+        "context": "Architectural recommendation",
+        "hint": "from an engineering standpoint, I recommend prioritizing low latency over a 1% gain in accuracy..."
+      },
+      {
+        "id": "ai-meetings-3",
+        "vietnamese": "Tôi hoàn toàn đồng ý với ý kiến của bạn, chúng ta có thể triển khai thử nghiệm trên môi trường dev trước.",
+        "context": "Agreement and next step",
+        "hint": "I completely agree with your point, we can test it out in the development environment first..."
+      },
+      {
+        "id": "ai-meetings-4",
+        "vietnamese": "Để tôi chia sẻ màn hình và demo nhanh cách pipeline này hoạt động nhé.",
+        "context": "Screen sharing",
+        "hint": "let me share my screen and do a quick demo of how this pipeline works..."
+      },
+      {
+        "id": "ai-meetings-5",
+        "vietnamese": "Chúng tôi cần thêm khoảng 2 ngày để đánh giá rủi ro bảo mật trước khi đưa tính năng này lên production.",
+        "context": "Timeline estimation",
+        "hint": "we need about two more days to assess the security risks before pushing this to production..."
+      }
+    ]
+  },
+  {
+    "id": "greetings",
+    "name": "Greetings & Small Talk",
+    "icon": "👋",
+    "category": "daily",
+    "description": "Chào hỏi, hỏi thăm đồng nghiệp, nói chuyện xã giao đầu ngày",
+    "sentences": [
+      {
+        "id": "greetings-1",
+        "vietnamese": "Chào buổi sáng! Cuối tuần vừa rồi của bạn thế nào, có gì vui không?",
+        "context": "Casual morning greeting",
+        "hint": "good morning! How was your weekend? Anything fun?..."
+      },
+      {
+        "id": "greetings-2",
+        "vietnamese": "Dạo này công việc của bạn có bận rộn lắm không?",
+        "context": "Asking about workload",
+        "hint": "have you been busy with work lately?..."
+      },
+      {
+        "id": "greetings-3",
+        "vietnamese": "Rất vui được gặp bạn trực tiếp sau nhiều lần chỉ trao đổi qua email.",
+        "context": "First time meeting in person",
+        "hint": "great to finally meet you in person after emailing for so long..."
+      },
+      {
+        "id": "greetings-4",
+        "vietnamese": "Chúc bạn một ngày làm việc hiệu quả và tràn đầy năng lượng nhé!",
+        "context": "Friendly wish",
+        "hint": "have a productive and energetic day ahead!..."
+      },
+      {
+        "id": "greetings-5",
+        "vietnamese": "Tôi xin phép đi lấy cốc cà phê, bạn có muốn uống gì không để tôi lấy giúp?",
+        "context": "Offering coffee",
+        "hint": "I'm going to grab a cup of coffee, can I get you anything?..."
+      }
+    ]
+  },
+  {
+    "id": "food-cafe",
+    "name": "Food & Cafe Ordering",
+    "icon": "☕",
+    "category": "daily",
+    "description": "Gọi đồ uống, đặt món ăn, yêu cầu thanh toán và hóa đơn",
+    "sentences": [
+      {
+        "id": "food-cafe-1",
+        "vietnamese": "Cho tôi một ly cà phê Americano đá, ít đường và mang đi nhé.",
+        "context": "Ordering coffee to go",
+        "hint": "can I get an iced Americano with less sugar to go, please?..."
+      },
+      {
+        "id": "food-cafe-2",
+        "vietnamese": "Món này có cay lắm không? Tôi không ăn được đồ cay.",
+        "context": "Asking about food spice",
+        "hint": "is this dish spicy? I can't eat spicy food..."
+      },
+      {
+        "id": "food-cafe-3",
+        "vietnamese": "Làm ơn cho chúng tôi xin hóa đơn, chúng tôi muốn chia đôi tiền.",
+        "context": "Bill request and split",
+        "hint": "could we get the check, please? We'd like to split the bill..."
+      },
+      {
+        "id": "food-cafe-4",
+        "vietnamese": "Quán của bạn có món nào được khách hàng yêu thích nhất không?",
+        "context": "Asking for recommendations",
+        "hint": "what is your most popular dish or recommendation here?..."
+      },
+      {
+        "id": "food-cafe-5",
+        "vietnamese": "Tôi có thể thanh toán bằng thẻ tín dụng hoặc Apple Pay được không?",
+        "context": "Payment method",
+        "hint": "can I pay with a credit card or Apple Pay?..."
+      }
+    ]
+  },
+  {
+    "id": "shopping",
+    "name": "Shopping & Inquiries",
+    "icon": "🛍️",
+    "category": "daily",
+    "description": "Mua sắm, hỏi kích cỡ, trả đổi hàng và hỏi giá",
+    "sentences": [
+      {
+        "id": "shopping-1",
+        "vietnamese": "Cái áo này có size L hoặc màu đen không bạn ơi?",
+        "context": "Asking for size/color",
+        "hint": "do you have this shirt in size L or in black?..."
+      },
+      {
+        "id": "shopping-2",
+        "vietnamese": "Tôi có thể thử chiếc áo này ở phòng thử đồ đằng kia được không?",
+        "context": "Fitting room",
+        "hint": "may I try this on in the fitting room over there?..."
+      },
+      {
+        "id": "shopping-3",
+        "vietnamese": "Cửa hàng đang có chương trình giảm giá hay khuyến mãi nào không?",
+        "context": "Asking for discounts",
+        "hint": "are there any discounts or promotions going on right now?..."
+      },
+      {
+        "id": "shopping-4",
+        "vietnamese": "Sản phẩm này có được đổi trả trong vòng 7 ngày nếu không vừa không?",
+        "context": "Return policy",
+        "hint": "can this item be returned or exchanged within 7 days if it doesn't fit?..."
+      },
+      {
+        "id": "shopping-5",
+        "vietnamese": "Cảm ơn bạn, tôi chỉ đang xem qua một chút thôi chứ chưa mua ngay.",
+        "context": "Polite browsing response",
+        "hint": "thanks, I'm just browsing for now..."
+      }
+    ]
+  },
+  {
+    "id": "directions",
+    "name": "Directions & Commuting",
+    "icon": "🗺️",
+    "category": "daily",
+    "description": "Hỏi đường, bắt xe buýt, tàu điện ngầm và ước lượng thời gian",
+    "sentences": [
+      {
+        "id": "directions-1",
+        "vietnamese": "Làm ơn cho tôi hỏi ga tàu điện ngầm gần nhất đi đường nào vậy?",
+        "context": "Asking for nearest station",
+        "hint": "excuse me, could you tell me how to get to the nearest subway station?..."
+      },
+      {
+        "id": "directions-2",
+        "vietnamese": "Đi bộ từ đây đến tòa nhà đó mất khoảng bao nhiêu phút?",
+        "context": "Estimating walking time",
+        "hint": "how long does it take to walk from here to that building?..."
+      },
+      {
+        "id": "directions-3",
+        "vietnamese": "Bạn đi thẳng hai ngã tư nữa, sau đó rẽ trái ở chỗ đèn giao thông.",
+        "context": "Giving directions",
+        "hint": "go straight for two more blocks, then turn left at the traffic light..."
+      },
+      {
+        "id": "directions-4",
+        "vietnamese": "Chuyến xe buýt số 15 có đi qua trung tâm thương mại không bạn?",
+        "context": "Checking bus route",
+        "hint": "does bus number 15 pass by the shopping mall?..."
+      },
+      {
+        "id": "directions-5",
+        "vietnamese": "Tôi nghĩ hình như chúng ta đang đi nhầm hướng rồi, để tôi mở Google Maps kiểm tra lại.",
+        "context": "Lost orientation",
+        "hint": "I think we are heading in the wrong direction, let me check Google Maps..."
+      }
+    ]
+  },
+  {
+    "id": "travel",
+    "name": "Airport & Travel",
+    "icon": "✈️",
+    "category": "daily",
+    "description": "Làm thủ tục tại sân bay, gửi hành lý, qua cửa hải quan",
+    "sentences": [
+      {
+        "id": "travel-1",
+        "vietnamese": "Cho tôi gửi hai kiện hành lý này và chọn chỗ ngồi cạnh cửa sổ nhé.",
+        "context": "Airport check-in",
+        "hint": "I would like to check in these two bags and have a window seat, please..."
+      },
+      {
+        "id": "travel-2",
+        "vietnamese": "Chuyến bay đi Singapore sẽ lên máy bay ở cửa số mấy vậy?",
+        "context": "Flight boarding gate",
+        "hint": "which gate will the flight to Singapore be boarding at?..."
+      },
+      {
+        "id": "travel-3",
+        "vietnamese": "Tôi đến đây với mục đích du lịch và dự kiến ở lại trong vòng 5 ngày.",
+        "context": "Immigration response",
+        "hint": "I am here for tourism and plan to stay for five days..."
+      },
+      {
+        "id": "travel-4",
+        "vietnamese": "Chuyến bay của chúng tôi bị hoãn một tiếng do điều kiện thời tiết xấu.",
+        "context": "Flight delay",
+        "hint": "our flight has been delayed by one hour due to bad weather conditions..."
+      },
+      {
+        "id": "travel-5",
+        "vietnamese": "Bạn có thể chỉ cho tôi khu vực lấy hành lý sau chuyến bay ở đâu không?",
+        "context": "Baggage claim",
+        "hint": "could you show me where the baggage claim area is?..."
+      }
+    ]
+  },
+  {
+    "id": "daily-routine",
+    "name": "Daily Routines & Habits",
+    "icon": "⏰",
+    "category": "daily",
+    "description": "Kể về thói quen buổi sáng, tập thể dục, lịch sinh hoạt",
+    "sentences": [
+      {
+        "id": "daily-routine-1",
+        "vietnamese": "Tôi thường thức dậy lúc 6 giờ 30 sáng, chạy bộ 20 phút rồi mới ăn sáng.",
+        "context": "Morning routine",
+        "hint": "I usually wake up at 6:30 AM, go for a 20-minute run, and then have breakfast..."
+      },
+      {
+        "id": "daily-routine-2",
+        "vietnamese": "Buổi tối tôi dành ra 30 phút để học tiếng Anh và đọc sách trước khi đi ngủ.",
+        "context": "Evening habit",
+        "hint": "in the evening, I spend 30 minutes studying English and reading before bed..."
+      },
+      {
+        "id": "daily-routine-3",
+        "vietnamese": "Tôi cố gắng duy trì thói quen uống đủ hai lít nước mỗi ngày.",
+        "context": "Healthy habit",
+        "hint": "I try to maintain the habit of drinking at least two liters of water a day..."
+      },
+      {
+        "id": "daily-routine-4",
+        "vietnamese": "Vào những ngày làm việc từ xa, tôi thường tự nấu bữa trưa tại nhà.",
+        "context": "Remote work routine",
+        "hint": "on days when I work remotely, I usually cook lunch at home..."
+      },
+      {
+        "id": "daily-routine-5",
+        "vietnamese": "Tôi đang tập đi ngủ sớm hơn để ngày hôm sau có nhiều năng lượng làm việc.",
+        "context": "Sleep schedule",
+        "hint": "I am trying to go to bed earlier so I have more energy the next day..."
+      }
+    ]
+  },
+  {
+    "id": "hobbies",
+    "name": "Hobbies & Free Time",
+    "icon": "🎸",
+    "category": "daily",
+    "description": "Chia sẻ sở thích, âm nhạc, phim ảnh, thể thao và du lịch",
+    "sentences": [
+      {
+        "id": "hobbies-1",
+        "vietnamese": "Khi rảnh rỗi, tôi rất thích nghe nhạc không lời hoặc chơi game giải trí.",
+        "context": "Talking about leisure",
+        "hint": "in my free time, I really enjoy listening to instrumental music or playing video games..."
+      },
+      {
+        "id": "hobbies-2",
+        "vietnamese": "Bạn đã xem bộ phim khoa học viễn tưởng mới ra rạp tuần trước chưa?",
+        "context": "Discussing movies",
+        "hint": "have you seen the new sci-fi movie that came out in theaters last week?..."
+      },
+      {
+        "id": "hobbies-3",
+        "vietnamese": "Tôi chơi cầu lông hai lần mỗi tuần cùng với vài người bạn thân.",
+        "context": "Sports habit",
+        "hint": "I play badminton twice a week with a few close friends..."
+      },
+      {
+        "id": "hobbies-4",
+        "vietnamese": "Chụp ảnh phong cảnh giúp tôi cảm thấy thư giãn sau những giờ làm việc căng thẳng.",
+        "context": "Creative hobby",
+        "hint": "taking landscape photos helps me unwind after stressful working hours..."
+      },
+      {
+        "id": "hobbies-5",
+        "vietnamese": "Tôi đang học thêm cách nấu một số món ăn Ý vào dịp cuối tuần.",
+        "context": "Cooking hobby",
+        "hint": "I'm learning how to cook some Italian dishes on the weekends..."
+      }
+    ]
+  },
+  {
+    "id": "appointments",
+    "name": "Appointments & Plans",
+    "icon": "📅",
+    "category": "daily",
+    "description": "Hẹn gặp, thay đổi giờ hẹn, xác nhận lịch trình",
+    "sentences": [
+      {
+        "id": "appointments-1",
+        "vietnamese": "Chúng ta có thể hẹn gặp nhau lúc 3 giờ chiều thứ Sáu này tại quán cà phê gần công ty không?",
+        "context": "Proposing a meeting",
+        "hint": "could we meet up at 3 PM this Friday at the coffee shop near our office?..."
+      },
+      {
+        "id": "appointments-2",
+        "vietnamese": "Tôi có một cuộc họp đột xuất, chúng ta dời lịch sang sáng thứ Hai được không?",
+        "context": "Rescheduling",
+        "hint": "I have an unexpected meeting, can we reschedule to Monday morning?..."
+      },
+      {
+        "id": "appointments-3",
+        "vietnamese": "Tôi xin xác nhận lại cuộc hẹn với bác sĩ nha khoa vào lúc 9 giờ sáng mai.",
+        "context": "Confirming appointment",
+        "hint": "I'd like to confirm my dental appointment for 9 AM tomorrow..."
+      },
+      {
+        "id": "appointments-4",
+        "vietnamese": "Rất tiếc hôm đó tôi bận mất rồi, hôm khác chúng ta đi ăn nhé!",
+        "context": "Polite decline",
+        "hint": "unfortunately I'm busy that day, let's grab food another time!..."
+      },
+      {
+        "id": "appointments-5",
+        "vietnamese": "Tôi sẽ gửi email lời mời kèm theo link phòng họp trực tuyến cho bạn ngay bây giờ.",
+        "context": "Sending calendar invite",
+        "hint": "I will send you a calendar invite with the online meeting link right now..."
+      }
+    ]
+  },
+  {
+    "id": "weather",
+    "name": "Weather & Feelings",
+    "icon": "🌤️",
+    "category": "daily",
+    "description": "Thời tiết, tâm trạng, nhiệt độ và dự báo thời tiết",
+    "sentences": [
+      {
+        "id": "weather-1",
+        "vietnamese": "Hôm nay trời nhiều mây và có thể sẽ có mưa rào vào buổi chiều, bạn nhớ mang ô nhé.",
+        "context": "Weather forecast",
+        "hint": "it's cloudy today and might rain this afternoon, remember to bring an umbrella..."
+      },
+      {
+        "id": "weather-2",
+        "vietnamese": "Thời tiết mùa thu mát mẻ thế này khiến tôi cảm thấy rất thoải mái và dễ chịu.",
+        "context": "Feeling good in cool weather",
+        "hint": "this cool autumn weather makes me feel so relaxed and comfortable..."
+      },
+      {
+        "id": "weather-3",
+        "vietnamese": "Trời đang mưa to quá, chúng ta nên đợi một lát cho tạnh mưa rồi hẵng về.",
+        "context": "Heavy rain delay",
+        "hint": "it's raining so heavily outside, we should wait a bit for it to stop before leaving..."
+      },
+      {
+        "id": "weather-4",
+        "vietnamese": "Nhiệt độ ngoài trời hôm nay lên tới 35 độ C, nóng bức thật đấy.",
+        "context": "Hot day complaint",
+        "hint": "the temperature outside hit 35 degrees Celsius today, it's really scorching..."
+      },
+      {
+        "id": "weather-5",
+        "vietnamese": "Tôi hy vọng cuối tuần này trời sẽ có nắng đẹp để chúng ta có thể đi cắm trại.",
+        "context": "Hoping for good weather",
+        "hint": "I hope the weather will be sunny this weekend so we can go camping..."
+      }
+    ]
+  },
+  {
+    "id": "phone-calls",
+    "name": "Phone & Video Calls",
+    "icon": "📞",
+    "category": "daily",
+    "description": "Nghe máy, nhờ chuyển máy, thông báo tín hiệu kém",
+    "sentences": [
+      {
+        "id": "phone-calls-1",
+        "vietnamese": "Alo, tôi là Tùng đây. Cho tôi hỏi tôi có thể nói chuyện với anh Minh được không?",
+        "context": "Phone greeting & asking for someone",
+        "hint": "hello, this is Tung speaking. May I speak with Mr. Minh, please?..."
+      },
+      {
+        "id": "phone-calls-2",
+        "vietnamese": "Hình như bạn đang để chế độ tắt tiếng (mute), chúng tôi không nghe thấy tiếng bạn.",
+        "context": "Video call unmuting",
+        "hint": "I think you are on mute, we can't hear your voice..."
+      },
+      {
+        "id": "phone-calls-3",
+        "vietnamese": "Tín hiệu bên bạn hơi chập chờn, bạn có thể kiểm tra lại micro được không?",
+        "context": "Bad audio connection",
+        "hint": "your connection is a bit glitchy, could you please check your microphone?..."
+      },
+      {
+        "id": "phone-calls-4",
+        "vietnamese": "Hiện tại sếp tôi đang bận họp, bạn có muốn để lại lời nhắn gì không?",
+        "context": "Taking a message",
+        "hint": "my manager is in a meeting right now, would you like to leave a message?..."
+      },
+      {
+        "id": "phone-calls-5",
+        "vietnamese": "Tôi sẽ gọi lại cho bạn ngay sau khi tôi rời khỏi văn phòng nhé.",
+        "context": "Promise to call back",
+        "hint": "I'll call you back as soon as I leave the office..."
+      }
+    ]
+  },
+  {
+    "id": "health",
+    "name": "Health & Medical",
+    "icon": "🏥",
+    "category": "daily",
+    "description": "Đi khám, mô tả triệu chứng, mua thuốc và hỏi liều dùng",
+    "sentences": [
+      {
+        "id": "health-1",
+        "vietnamese": "Tôi bị đau đầu và sốt nhẹ từ tối qua, bác sĩ cho tôi hỏi có cần uống thuốc gì không?",
+        "context": "Describing symptoms",
+        "hint": "I have had a headache and a mild fever since last night, do I need any medication?..."
+      },
+      {
+        "id": "health-2",
+        "vietnamese": "Loại thuốc này uống trước bữa ăn hay sau bữa ăn vậy dược sĩ?",
+        "context": "Asking medicine instructions",
+        "hint": "should I take this medicine before or after meals?..."
+      },
+      {
+        "id": "health-3",
+        "vietnamese": "Tôi bị dị ứng với hải sản, nên làm ơn đừng cho tôm hay cua vào món ăn nhé.",
+        "context": "Allergy statement",
+        "hint": "I am allergic to seafood, so please make sure there are no shrimp or crab in the dish..."
+      },
+      {
+        "id": "health-4",
+        "vietnamese": "Bạn nên dành thời gian nghỉ ngơi vài ngày để cơ thể hồi phục hoàn toàn.",
+        "context": "Health advice",
+        "hint": "you should rest for a few days to make a full recovery..."
+      },
+      {
+        "id": "health-5",
+        "vietnamese": "Gần đây tôi thường xuyên bị mỏi mắt do ngồi máy tính liên tục nhiều giờ liền.",
+        "context": "Eyestrain from screen",
+        "hint": "lately my eyes have been feeling strained from staring at the computer screen for hours..."
+      }
+    ]
+  },
+  {
+    "id": "family",
+    "name": "Family & Relationships",
+    "icon": "👨‍👩‍👧",
+    "category": "daily",
+    "description": "Nói về gia đình, quê quán, bạn bè và những dịp sum họp",
+    "sentences": [
+      {
+        "id": "family-1",
+        "vietnamese": "Gia đình tôi có 4 người: bố mẹ, tôi và một người em gái đang học đại học.",
+        "context": "Introducing family",
+        "hint": "there are four people in my family: my parents, myself, and a younger sister who is in college..."
+      },
+      {
+        "id": "family-2",
+        "vietnamese": "Vào dịp Tết, cả gia đình tôi thường quây quần bên nhau và đi thăm ông bà.",
+        "context": "Holiday family gathering",
+        "hint": "during Tet holiday, our whole family gathers together and visits our grandparents..."
+      },
+      {
+        "id": "family-3",
+        "vietnamese": "Bố mẹ tôi luôn khuyến khích tôi theo đuổi niềm đam mê công nghệ.",
+        "context": "Parental encouragement",
+        "hint": "my parents always encourage me to pursue my passion for technology..."
+      },
+      {
+        "id": "family-4",
+        "vietnamese": "Tôi và người bạn thân nhất đã quen nhau từ hồi học cấp hai.",
+        "context": "Longtime friendship",
+        "hint": "my best friend and I have known each other since middle school..."
+      },
+      {
+        "id": "family-5",
+        "vietnamese": "Cuối tuần này chúng tôi tổ chức một bữa tiệc sinh nhật bất ngờ cho mẹ.",
+        "context": "Surprise birthday party",
+        "hint": "this weekend we are throwing a surprise birthday party for our mom..."
+      }
+    ]
+  },
+  {
+    "id": "banking",
+    "name": "Banking & Transactions",
+    "icon": "💳",
+    "category": "daily",
+    "description": "Giao dịch ngân hàng, đổi tiền ngoại tệ, chuyển khoản",
+    "sentences": [
+      {
+        "id": "banking-1",
+        "vietnamese": "Tôi muốn mở một tài khoản ngân hàng mới và đăng ký dịch vụ internet banking.",
+        "context": "Opening bank account",
+        "hint": "I would like to open a new bank account and register for online banking..."
+      },
+      {
+        "id": "banking-2",
+        "vietnamese": "Tỷ giá quy đổi từ đồng Đô la Mỹ sang đồng Việt Nam hôm nay là bao nhiêu?",
+        "context": "Exchange rate",
+        "hint": "what is today's exchange rate from US Dollars to Vietnamese Dong?..."
+      },
+      {
+        "id": "banking-3",
+        "vietnamese": "Tôi vừa chuyển khoản tiền phòng cho bạn rồi, bạn kiểm tra lại tài khoản nhé.",
+        "context": "Transfer confirmation",
+        "hint": "I just transferred the rent money to you, please check your account..."
+      },
+      {
+        "id": "banking-4",
+        "vietnamese": "Hình như cây ATM này bị hết tiền mặt, chúng ta tìm cây khác nhé.",
+        "context": "ATM out of cash",
+        "hint": "it seems this ATM is out of cash, let's find another one..."
+      },
+      {
+        "id": "banking-5",
+        "vietnamese": "Phí chuyển tiền quốc tế cho giao dịch này là bao nhiêu phần trăm?",
+        "context": "Transaction fees",
+        "hint": "what is the international wire transfer fee for this transaction?..."
+      }
+    ]
+  },
+  {
+    "id": "hotel",
+    "name": "Hotel & Accommodation",
+    "icon": "🏨",
+    "category": "daily",
+    "description": "Nhận phòng, trả phòng, hỏi mật khẩu wifi và dịch vụ phòng",
+    "sentences": [
+      {
+        "id": "hotel-1",
+        "vietnamese": "Xin chào, tôi đã đặt trước một phòng đôi qua mạng dưới tên Tung Luu.",
+        "context": "Hotel check-in with reservation",
+        "hint": "hello, I have a reservation for a double room under the name Tung Luu..."
+      },
+      {
+        "id": "hotel-2",
+        "vietnamese": "Làm ơn cho tôi hỏi mật khẩu wifi của khách sạn và giờ phục vụ bữa sáng là mấy giờ?",
+        "context": "Wifi and breakfast hours",
+        "hint": "could you tell me the hotel wifi password and what time breakfast is served?..."
+      },
+      {
+        "id": "hotel-3",
+        "vietnamese": "Phòng của tôi bị hỏng điều hòa, bạn có thể cử nhân viên lên kiểm tra giúp được không?",
+        "context": "Room AC issue",
+        "hint": "the air conditioner in my room isn't working, could someone come up to check it?..."
+      },
+      {
+        "id": "hotel-4",
+        "vietnamese": "Chúng tôi có thể trả phòng muộn hơn một tiếng vào trưa mai được không?",
+        "context": "Late checkout request",
+        "hint": "would it be possible to request a late check-out by one hour tomorrow?..."
+      },
+      {
+        "id": "hotel-5",
+        "vietnamese": "Sau khi check-out, chúng tôi có thể gửi tạm hành lý ở quầy lễ tân vài tiếng được không?",
+        "context": "Leaving luggage after checkout",
+        "hint": "can we leave our luggage at the front desk for a few hours after checking out?..."
+      }
+    ]
+  },
+  {
+    "id": "emergency",
+    "name": "Emergencies & Help",
+    "icon": "🚨",
+    "category": "daily",
+    "description": "Tình huống khẩn cấp, mất đồ, báo cảnh sát và nhờ người xung quanh giúp đỡ",
+    "sentences": [
+      {
+        "id": "emergency-1",
+        "vietnamese": "Làm ơn giúp tôi với! Tôi vừa bị mất ví và hộ chiếu trên xe buýt.",
+        "context": "Lost passport and wallet",
+        "hint": "please help me! I just lost my wallet and passport on the bus..."
+      },
+      {
+        "id": "emergency-2",
+        "vietnamese": "Ở đây có ai biết nói tiếng Anh không? Tôi đang cần sự trợ giúp khẩn cấp.",
+        "context": "Looking for English speaker",
+        "hint": "does anyone here speak English? I need urgent assistance..."
+      },
+      {
+        "id": "emergency-3",
+        "vietnamese": "Làm ơn gọi giúp tôi một chiếc xe cấp cứu, có người vừa bị ngất xỉu ở đây.",
+        "context": "Calling ambulance",
+        "hint": "please call an ambulance, someone just fainted over here..."
+      },
+      {
+        "id": "emergency-4",
+        "vietnamese": "Đồn cảnh sát gần nhất ở đâu vậy? Tôi cần trình báo sự việc bị mất cắp.",
+        "context": "Reporting to police",
+        "hint": "where is the nearest police station? I need to report a theft..."
+      },
+      {
+        "id": "emergency-5",
+        "vietnamese": "Đừng hoảng loạn, hãy bình tĩnh làm theo hướng dẫn thoát hiểm của nhân viên cứu hộ.",
+        "context": "Emergency evacuation",
+        "hint": "don't panic, stay calm and follow the emergency exit instructions from the rescue team..."
+      }
+    ]
+  }
+]
