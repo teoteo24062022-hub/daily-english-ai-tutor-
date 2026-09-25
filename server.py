@@ -2,7 +2,7 @@ import gradio as gr
 import spaces
 from main import app as fastapi_app
 
-# ZeroGPU requirement: at least one function decorated with @spaces.GPU
+# ZeroGPU requires a decorated function bound to a Gradio event
 @spaces.GPU
 def gpu_init():
     return "ZeroGPU Ready"
@@ -19,6 +19,12 @@ with gr.Blocks(title="Daily English AI Tutor") as demo:
             </a>
         </div>
     ''')
+
+    # Event binding so ZeroGPU orchestrator detects the handler during scan
+    btn = gr.Button("Init", visible=False)
+    txt = gr.Textbox(visible=False)
+    btn.click(fn=gpu_init, inputs=[], outputs=[txt])
+    demo.load(fn=gpu_init, inputs=[], outputs=[txt])
 
 # Mount Gradio onto our FastAPI application at /gradio
 # Root `/` and all `/api/*` routes are handled by our FastAPI app in main.py
